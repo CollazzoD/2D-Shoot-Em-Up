@@ -19,7 +19,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     renderer.prepareScene();
     controller.HandleInput(running);
-    renderer.prepareScene();
+    renderer.presentScene();
 
     frame_end = SDL_GetTicks();
 

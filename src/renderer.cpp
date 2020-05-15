@@ -39,7 +39,8 @@ Renderer::~Renderer() {
 
 void Renderer::prepareScene() {
   // Clear screen
-  SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+  //SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer, 96, 128, 255, 255);
   SDL_RenderClear(sdl_renderer);
 }
 
