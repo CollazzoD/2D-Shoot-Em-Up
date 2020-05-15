@@ -15,6 +15,11 @@ This is the repo for the Capstone project in the [Udacity C++ Nanodegree Program
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
 
+* SDL2 >= 2.0
+  * All installation instructions can be found [here](https://wiki.libsdl.org/Installation)
+  * Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source. 
+  * Make sure to install also SDL2_image (e.g. on Linux run `apt-get install libsdl2-image-dev`
+
 ## Basic Build Instructions
 
 1. Clone this repo.
