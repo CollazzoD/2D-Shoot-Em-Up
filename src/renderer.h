@@ -9,7 +9,8 @@ class Renderer {
   Renderer(const std::size_t screen_width, const std::size_t screen_height);
   ~Renderer();
 
-  void Render();
+  void prepareScene();
+  void presentScene();
   void UpdateWindowTitle(int fps);
 
  private:
