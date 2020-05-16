@@ -15,6 +15,8 @@ class Game {
   Renderer renderer;
   Controller controller;
   Player player;
+
+  void Update();
 };
 
 #endif

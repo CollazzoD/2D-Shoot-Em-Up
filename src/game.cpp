@@ -19,7 +19,10 @@ void Game::Run(std::size_t target_frame_duration) {
 
     // Input, Update, Render - the main game loop.
     renderer.prepareScene();
-    controller.HandleInput(running);
+    controller.HandleInput(running, player);
+    
+    Update();
+
     renderer.renderTexture(player.texture, player.x, player.y);
     renderer.presentScene();
 
@@ -44,4 +47,8 @@ void Game::Run(std::size_t target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_duration);
     }
   }
+}
+
+void Game::Update() {
+  player.Update();
 }
