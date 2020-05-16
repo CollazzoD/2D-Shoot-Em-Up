@@ -3,7 +3,17 @@
 #include <iostream>
 
 void Controller::doKeyUp(Player &player, const SDL_Keycode& key) const {
-  player.direction = Player::Direction::kStop;
+  const Uint8 *state = SDL_GetKeyboardState(NULL);
+  if (state[SDL_SCANCODE_UP])
+    player.direction = Player::Direction::kUp;
+  else if (state[SDL_SCANCODE_DOWN])
+    player.direction = Player::Direction::kDown;
+  else if (state[SDL_SCANCODE_LEFT])
+    player.direction = Player::Direction::kLeft;
+  else if (state[SDL_SCANCODE_RIGHT])
+    player.direction = Player::Direction::kRight;
+  else
+    player.direction = Player::Direction::kStop;
 }
 
 void Controller::doKeyDown(Player &player, const SDL_Keycode& key) const {
