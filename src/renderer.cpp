@@ -33,7 +33,7 @@ Renderer::Renderer(const std::size_t screen_width,
   // Initialize SDL Image library
   int img_flags = IMG_INIT_JPG | IMG_INIT_PNG;
   int initted = IMG_Init(img_flags);
-  if ((initted & img_flags) != img_flags) {
+  if ((initted & img_flags) != initted) {
     std::cerr << "IMG_Init: Failed to init required jpg and png support!\n";
     std::cerr << "IMG_Init: " << IMG_GetError() << "\n";
   }
@@ -42,7 +42,34 @@ Renderer::Renderer(const std::size_t screen_width,
 Renderer::~Renderer() {
   IMG_Quit();
   SDL_DestroyWindow(sdl_window);
+  SDL_DestroyRenderer(sdl_renderer);
   SDL_Quit();
+}
+
+Renderer::Renderer(Renderer &&source) {
+  sdl_window = source.sdl_window;
+  source.sdl_window = nullptr;
+  sdl_renderer = source.sdl_renderer;
+  sdl_renderer = nullptr;
+  screen_width = source.screen_width;
+  screen_height = source.screen_height;
+}
+
+Renderer &Renderer::operator=(Renderer &&source) {
+  if (this == &source)
+    return *this;
+
+  SDL_DestroyWindow(sdl_window);
+  SDL_DestroyRenderer(sdl_renderer);
+
+  sdl_window = source.sdl_window;
+  source.sdl_window = nullptr;
+  sdl_renderer = source.sdl_renderer;
+  sdl_renderer = nullptr;
+  screen_width = source.screen_width;
+  screen_height = source.screen_height;
+
+  return *this;
 }
 
 void Renderer::prepareScene() {
@@ -56,4 +83,37 @@ void Renderer::presentScene() { SDL_RenderPresent(sdl_renderer); }
 void Renderer::UpdateWindowTitle(int fps) {
   std::string title{"Score: 100 FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
+}
+
+SDL_Texture *Renderer::loadTexture(const std::string &filename) const{
+  // The final texture
+  SDL_Texture *newTexture = NULL;
+
+  // Load image at specified path
+  SDL_Surface *loadedSurface = IMG_Load(filename.c_str());
+  if (loadedSurface == NULL) {
+    std::cerr << "Unable to load image " << filename
+              << "! SDL_image Error: " << IMG_GetError() << "\n";
+  } else {
+    // Create texture from surface pixels
+    newTexture = SDL_CreateTextureFromSurface(sdl_renderer, loadedSurface);
+    if (newTexture == NULL) {
+      std::cerr << "Unable to create texture from " << filename
+                << "! SDL Error: " << SDL_GetError() << "\n";
+    }
+
+    // Get rid of old loaded surface
+    SDL_FreeSurface(loadedSurface);
+  }
+
+  return newTexture;
+}
+
+void Renderer::renderTexture(SDL_Texture *texture, int x, int y) {
+  SDL_Rect dest;
+
+  dest.x = x;
+  dest.y = y;
+  SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+  SDL_RenderCopy(sdl_renderer, texture, NULL, &dest);
 }
