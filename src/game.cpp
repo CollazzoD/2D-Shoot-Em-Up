@@ -1,11 +1,12 @@
 #include "game.h"
 #include <SDL2/SDL.h>
+#include <functional>
 #include <iostream>
 
-Game::Game() {}
+Game::Game()
+    : renderer(kScreenWidth, kScreenHeight), controller(), player(renderer) {}
 
-void Game::Run(Controller const &controller, Renderer &renderer,
-               std::size_t target_frame_duration) {
+void Game::Run(std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
@@ -19,6 +20,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     renderer.prepareScene();
     controller.HandleInput(running);
+    renderer.renderTexture(player.texture, player.x, player.y);
     renderer.presentScene();
 
     frame_end = SDL_GetTicks();
