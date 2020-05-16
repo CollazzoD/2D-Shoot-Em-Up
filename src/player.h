@@ -26,6 +26,10 @@ public:
   int speed;
   SDL_Texture *texture;
 
+private:
+  void UpdatePosition();
+
+  int texture_width, texture_height;
 };
 
 #endif

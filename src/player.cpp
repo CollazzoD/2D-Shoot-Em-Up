@@ -6,6 +6,12 @@ Player::Player(Renderer &r) : x(100), y(100), speed(4) {
   texture = r.loadTexture("../gfx/player.png");
   if (texture == NULL)
     std::cerr << "Unable to load Player's texture\n";
+  else {
+    SDL_Rect dest;
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    texture_height = dest.h;
+    texture_width = dest.w;
+  }
 }
 
 Player::~Player() {
@@ -55,4 +61,17 @@ void Player::Update() {
   case Direction::kStop:
     break;
   }
+  UpdatePosition();
+}
+
+void Player::UpdatePosition() {
+  if (y < 0)
+    y = 0;
+  if (y > (kScreenHeight - texture_height))
+    y = kScreenHeight - texture_height;
+
+  if (x < 0)
+    x = 0;
+  if (x > (kScreenWidth - texture_width))
+    x = kScreenWidth - texture_width;
 }
