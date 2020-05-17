@@ -68,9 +68,11 @@ void Player::Fire() {
       bullet->health = 1;
       bullet->x = this->x;
       bullet->y = this->y;
+      bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
     }
   } else {
     bullet = std::make_unique<Bullet>(renderer, this->x, this->y);
+    bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
   }
 }
 
