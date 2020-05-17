@@ -18,13 +18,13 @@ void Game::Run(std::size_t target_frame_duration) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    renderer.prepareScene();
+    renderer.PrepareScene();
     controller.HandleInput(running, player);
     
     Update();
 
-    renderer.renderTexture(player.texture, player.x, player.y);
-    renderer.presentScene();
+    renderer.RenderTexture(player.texture, player.x, player.y);
+    renderer.PresentScene();
 
     frame_end = SDL_GetTicks();
 

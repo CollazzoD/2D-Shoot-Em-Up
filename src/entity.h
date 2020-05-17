@@ -12,6 +12,8 @@ public:
   int speed;
   SDL_Texture *texture;
 
+  virtual void Update() = 0;
+
 private:
   virtual void UpdatePosition() = 0;
 };

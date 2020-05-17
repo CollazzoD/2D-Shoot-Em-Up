@@ -72,20 +72,20 @@ Renderer &Renderer::operator=(Renderer &&source) {
   return *this;
 }
 
-void Renderer::prepareScene() {
+void Renderer::PrepareScene() {
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 96, 128, 255, 255);
   SDL_RenderClear(sdl_renderer);
 }
 
-void Renderer::presentScene() { SDL_RenderPresent(sdl_renderer); }
+void Renderer::PresentScene() { SDL_RenderPresent(sdl_renderer); }
 
 void Renderer::UpdateWindowTitle(int fps) {
   std::string title{"Score: 100 FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
 
-SDL_Texture *Renderer::loadTexture(const std::string &filename) const{
+SDL_Texture *Renderer::LoadTexture(const std::string &filename) const{
   // The final texture
   SDL_Texture *newTexture = NULL;
 
@@ -109,7 +109,7 @@ SDL_Texture *Renderer::loadTexture(const std::string &filename) const{
   return newTexture;
 }
 
-void Renderer::renderTexture(SDL_Texture *texture, int x, int y) {
+void Renderer::RenderTexture(SDL_Texture *texture, int x, int y) {
   SDL_Rect dest;
 
   dest.x = x;

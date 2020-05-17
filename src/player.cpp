@@ -2,8 +2,8 @@
 #include <iostream>
 
 // Renderer is needed in order to load the texture
-Player::Player(Renderer &r) : Entity(100, 100, 4) {
-  texture = r.loadTexture("../gfx/player.png");
+Player::Player(Renderer &r) : Entity(PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED) {
+  texture = r.LoadTexture("../gfx/player.png");
   if (texture == NULL)
     std::cerr << "Unable to load Player's texture\n";
   else {

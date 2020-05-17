@@ -18,11 +18,11 @@ class Renderer {
   Renderer(Renderer &&source);
   Renderer &operator=(Renderer &&source);
 
-  void prepareScene();
-  void presentScene();
+  void PrepareScene();
+  void PresentScene();
   void UpdateWindowTitle(int fps);
-  void renderTexture(SDL_Texture *texture, int x, int y);
-  SDL_Texture* loadTexture(const std::string& filename) const;
+  void RenderTexture(SDL_Texture *texture, int x, int y);
+  SDL_Texture* LoadTexture(const std::string& filename) const;
 
  private:
   SDL_Window *sdl_window;
