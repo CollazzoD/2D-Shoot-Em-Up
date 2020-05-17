@@ -6,7 +6,7 @@ Entity::Entity(Renderer &r, const std::string &texture_image, const int &x,
     : x(x), y(y), speed(speed), dx(0), dy(0), health(1), texture(NULL) {
   texture = r.LoadTexture(texture_image.c_str());
   if (texture == NULL)
-    std::cerr << "Unable to load Player's texture\n";
+    std::cerr << "Unable to load Entity's texture " << texture_image << "\n";
   else {
     SDL_Rect dest;
     SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
