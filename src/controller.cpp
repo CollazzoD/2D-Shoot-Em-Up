@@ -33,6 +33,10 @@ void Controller::doKeyDown(Player &player, const SDL_Keycode& key) const {
     case SDLK_RIGHT:
       player.direction = Player::Direction::kRight;
       break;
+
+    case SDLK_SPACE:
+      player.Fire();
+      break;
   }
 }
 

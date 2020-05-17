@@ -2,29 +2,13 @@
 #include <iostream>
 
 // Renderer is needed in order to load the texture
-Player::Player(Renderer &r) : Entity(PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED) {
-  texture = r.LoadTexture("../gfx/player.png");
-  if (texture == NULL)
-    std::cerr << "Unable to load Player's texture\n";
-  else {
-    SDL_Rect dest;
-    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
-    texture_height = dest.h;
-    texture_width = dest.w;
-  }
-}
+Player::Player(Renderer &r)
+    : Entity(r, "../gfx/player.png", PLAYER_INITIAL_X, PLAYER_INITIAL_Y,
+             PLAYER_SPEED), renderer(r), bullet(nullptr) {}
 
-Player::~Player() {
-  if (texture != NULL)
-    SDL_DestroyTexture(texture);
-}
-
-Player::Player(Player &&source) : Entity(source.x, source.y, source.speed) {
-  texture = source.texture;
-  source.texture = NULL;
+Player::Player(Player &&source) : Entity(std::move(source)), renderer(source.renderer) {
   direction = source.direction;
-  texture_width = source.texture_width;
-  texture_height = source.texture_height;
+  bullet = std::move(source.bullet);
 }
 
 Player &Player::operator=(Player &&source) {
@@ -42,6 +26,8 @@ Player &Player::operator=(Player &&source) {
   direction = source.direction;
   texture_width = source.texture_width;
   texture_height = source.texture_height;
+  renderer = std::move(source.renderer);
+  bullet = std::move(source.bullet);
   return *this;
 }
 
@@ -66,7 +52,26 @@ void Player::Update() {
   case Direction::kStop:
     break;
   }
+  UpdateBullet();
   UpdatePosition();
+}
+
+void Player::UpdateBullet() {
+  if ((bullet != nullptr) && (bullet->health == 1)) {
+    bullet->Update();
+  }
+}
+
+void Player::Fire() {
+  if (bullet != nullptr) {
+    if (bullet->health == 0) {
+      bullet->health = 1;
+      bullet->x = this->x;
+      bullet->y = this->y;
+    }
+  } else {
+    bullet = std::make_unique<Bullet>(renderer, this->x, this->y);
+  }
 }
 
 void Player::UpdatePosition() {

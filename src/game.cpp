@@ -23,6 +23,9 @@ void Game::Run(std::size_t target_frame_duration) {
     
     Update();
 
+    if ((player.bullet != nullptr) && (player.bullet->health == 1))
+      renderer.RenderTexture(player.bullet->texture, player.bullet->x, player.bullet->y);
+
     renderer.RenderTexture(player.texture, player.x, player.y);
     renderer.PresentScene();
 

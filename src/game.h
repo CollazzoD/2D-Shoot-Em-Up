@@ -5,6 +5,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "player.h"
+#include "bullet.h"
 
 class Game {
  public:
