@@ -2,10 +2,12 @@
 #define PLAYER_H
 
 #include "renderer.h"
+#include "entity.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-class Player {
+
+class Player : public Entity {
 public:
   enum class Direction { kUp, kDown, kLeft, kRight, kStop};
 
@@ -21,14 +23,10 @@ public:
 
   Direction direction = Direction::kStop;
 
-  int x;
-  int y;
-  int speed;
-  SDL_Texture *texture;
+  
 
 private:
-  void UpdatePosition();
-
+  void UpdatePosition() override;
   int texture_width, texture_height;
 };
 

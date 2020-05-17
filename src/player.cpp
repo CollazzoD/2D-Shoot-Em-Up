@@ -2,7 +2,7 @@
 #include <iostream>
 
 // Renderer is needed in order to load the texture
-Player::Player(Renderer &r) : x(100), y(100), speed(4) {
+Player::Player(Renderer &r) : Entity(100, 100, 4) {
   texture = r.loadTexture("../gfx/player.png");
   if (texture == NULL)
     std::cerr << "Unable to load Player's texture\n";
@@ -19,11 +19,12 @@ Player::~Player() {
     SDL_DestroyTexture(texture);
 }
 
-Player::Player(Player &&source) {
-  x = source.x;
-  y = source.y;
+Player::Player(Player &&source) : Entity(source.x, source.y, source.speed) {
   texture = source.texture;
   source.texture = NULL;
+  direction = source.direction;
+  texture_width = source.texture_width;
+  texture_height = source.texture_height;
 }
 
 Player &Player::operator=(Player &&source) {
@@ -35,8 +36,12 @@ Player &Player::operator=(Player &&source) {
 
   x = source.x;
   y = source.y;
+  speed = source.speed;
   texture = source.texture;
   source.texture = NULL;
+  direction = source.direction;
+  texture_width = source.texture_width;
+  texture_height = source.texture_height;
   return *this;
 }
 

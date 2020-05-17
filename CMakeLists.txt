@@ -16,6 +16,6 @@ find_package(SDL2_image REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} src)
 
-add_executable(2D-Shoot-Em-Up src/main.cpp src/renderer.cpp src/controller.cpp src/game.cpp src/player.cpp)
+add_executable(2D-Shoot-Em-Up src/main.cpp src/renderer.cpp src/controller.cpp src/game.cpp src/player.cpp src/entity.cpp)
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(2D-Shoot-Em-Up ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
