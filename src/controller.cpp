@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-void Controller::doKeyUp(Player *player, const SDL_Keycode& key) const {
+void Controller::doKeyUp(Player *player, const SDL_Keycode &key) const {
   const Uint8 *state = SDL_GetKeyboardState(NULL);
   if (state[SDL_SCANCODE_UP])
     player->direction = Player::Direction::kUp;
@@ -14,30 +14,37 @@ void Controller::doKeyUp(Player *player, const SDL_Keycode& key) const {
     player->direction = Player::Direction::kRight;
   else
     player->direction = Player::Direction::kStop;
+
+  if (state[SDL_SCANCODE_SPACE])
+    player->Fire();
+  else
+    player->StopFire();
 }
 
-void Controller::doKeyDown(Player *player, const SDL_Keycode& key) const {
+void Controller::doKeyDown(Player *player, const SDL_Keycode &key) const {
+  const Uint8 *state = SDL_GetKeyboardState(NULL);
   switch (key) {
-    case SDLK_UP:
-      player->direction = Player::Direction::kUp;
-      break;
+  case SDLK_UP:
+    player->direction = Player::Direction::kUp;
+    break;
 
-    case SDLK_DOWN:
-      player->direction = Player::Direction::kDown;
-      break;
+  case SDLK_DOWN:
+    player->direction = Player::Direction::kDown;
+    break;
 
-    case SDLK_LEFT:
-      player->direction = Player::Direction::kLeft;
-      break;
+  case SDLK_LEFT:
+    player->direction = Player::Direction::kLeft;
+    break;
 
-    case SDLK_RIGHT:
-      player->direction = Player::Direction::kRight;
-      break;
-
-    case SDLK_SPACE:
-      player->Fire();
-      break;
+  case SDLK_RIGHT:
+    player->direction = Player::Direction::kRight;
+    break;
   }
+
+  if (state[SDL_SCANCODE_SPACE])
+    player->Fire();
+  else
+    player->StopFire();
 }
 
 void Controller::HandleInput(bool &running, Player *player) const {

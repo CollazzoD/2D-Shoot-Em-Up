@@ -13,8 +13,8 @@ public:
   Entity(Entity &&source);
   Entity &operator=(Entity &&source);
 
-  int GetTextureWidth() const {return texture_width;}
-  int GetTextureHeight() const {return texture_height;}
+  int GetWidth() const {return width;}
+  int GetHeight() const {return height;}
   int GetX() const {return x;}
   int GetY() const {return y;}
   int GetHealth() const {return health;}
@@ -28,8 +28,8 @@ protected:
   int dy;
   int speed;
   int health;
-  int texture_width;
-  int texture_height;
+  int width;
+  int height;
   SDL_Texture *texture;
 };
 

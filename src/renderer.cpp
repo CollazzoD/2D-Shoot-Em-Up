@@ -112,7 +112,7 @@ void Renderer::RenderTexture(const Entity *entity) {
   SDL_Rect dest;
   dest.x = entity->GetX();
   dest.y = entity->GetY();
-  dest.w = entity->GetTextureWidth();
-  dest.h = entity->GetTextureHeight();
+  dest.w = entity->GetWidth();
+  dest.h = entity->GetHeight();
   SDL_RenderCopy(sdl_renderer, entity->GetTexture(), NULL, &dest);
 }

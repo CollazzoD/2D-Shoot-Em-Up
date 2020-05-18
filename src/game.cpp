@@ -8,8 +8,9 @@ Game::Game(Renderer &renderer) {
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/player.png"));
   bullet_texture = std::make_unique<Texture>(
       renderer.LoadTexture("../gfx/playerBullet.png"));
+  Bullet bullet_forge(bullet_texture->GetTexture(), 0, 0);
   player = std::make_unique<Player>(player_texture->GetTexture(),
-                                    bullet_texture->GetTexture(), bullets);
+                                    std::move(bullet_forge), bullets);
 }
 
 Game::~Game() {}
