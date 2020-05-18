@@ -8,7 +8,7 @@ constexpr int BULLET_SPEED{16};
 
 class Bullet : public Entity {
 public:
-  Bullet(Renderer &r, int x, int y);
+  Bullet(SDL_Texture *texture, int x, int y);
   ~Bullet() = default;
   Bullet(const Bullet &source) = delete;
   Bullet &operator=(const Bullet &source) = delete;
@@ -18,7 +18,6 @@ public:
   void Update() override;
 
 private:
-  void UpdatePosition() override;
 };
 
 #endif

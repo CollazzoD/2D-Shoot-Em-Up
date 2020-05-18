@@ -2,9 +2,8 @@
 #include <iostream>
 #include <string>
 
-Renderer::Renderer(const std::size_t screen_width,
-                   const std::size_t screen_height)
-    : screen_width(screen_width), screen_height(screen_height) {
+Renderer::Renderer()
+    : screen_width(kScreenWidth), screen_height(kScreenHeight) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -80,12 +79,12 @@ void Renderer::PrepareScene() {
 
 void Renderer::PresentScene() { SDL_RenderPresent(sdl_renderer); }
 
-void Renderer::UpdateWindowTitle(int fps) {
-  std::string title{"Score: 100 FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(const int &x, const int &y, const int &fps) {
+  std::string title{"X : " + std::to_string(x) + ", Y : " + std::to_string(y) + ", FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
 
-SDL_Texture *Renderer::LoadTexture(const std::string &filename) const{
+SDL_Texture *Renderer::LoadTexture(const std::string &filename) const {
   // The final texture
   SDL_Texture *newTexture = NULL;
 
@@ -109,11 +108,11 @@ SDL_Texture *Renderer::LoadTexture(const std::string &filename) const{
   return newTexture;
 }
 
-void Renderer::RenderTexture(SDL_Texture *texture, int x, int y) {
+void Renderer::RenderTexture(const Entity *entity) {
   SDL_Rect dest;
-
-  dest.x = x;
-  dest.y = y;
-  SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
-  SDL_RenderCopy(sdl_renderer, texture, NULL, &dest);
+  dest.x = entity->GetX();
+  dest.y = entity->GetY();
+  dest.w = entity->GetTextureWidth();
+  dest.h = entity->GetTextureHeight();
+  SDL_RenderCopy(sdl_renderer, entity->GetTexture(), NULL, &dest);
 }

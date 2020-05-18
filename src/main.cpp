@@ -7,7 +7,9 @@ int main() {
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
 
-  Game game;
-  game.Run(kMsPerFrame);
+  Renderer renderer;
+  Controller controller;
+  Game game(renderer);
+  game.Run(controller, renderer, kMsPerFrame);
   return 0;
 }

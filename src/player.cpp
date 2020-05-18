@@ -2,34 +2,9 @@
 #include <iostream>
 
 // Renderer is needed in order to load the texture
-Player::Player(Renderer &r)
-    : Entity(r, "../gfx/player.png", PLAYER_INITIAL_X, PLAYER_INITIAL_Y,
-             PLAYER_SPEED), renderer(r), bullet(nullptr) {}
-
-Player::Player(Player &&source) : Entity(std::move(source)), renderer(source.renderer) {
-  direction = source.direction;
-  bullet = std::move(source.bullet);
-}
-
-Player &Player::operator=(Player &&source) {
-  if (this == &source)
-    return *this;
-
-  if (texture != NULL)
-    SDL_DestroyTexture(texture);
-
-  x = source.x;
-  y = source.y;
-  speed = source.speed;
-  texture = source.texture;
-  source.texture = NULL;
-  direction = source.direction;
-  texture_width = source.texture_width;
-  texture_height = source.texture_height;
-  renderer = std::move(source.renderer);
-  bullet = std::move(source.bullet);
-  return *this;
-}
+Player::Player(SDL_Texture *texture)
+    : Entity( texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y,
+             PLAYER_SPEED) {}
 
 void Player::Update() {
   switch (direction) {
@@ -52,29 +27,28 @@ void Player::Update() {
   case Direction::kStop:
     break;
   }
-  UpdateBullet();
   UpdatePosition();
 }
 
-void Player::UpdateBullet() {
-  if ((bullet != nullptr) && (bullet->health == 1)) {
-    bullet->Update();
-  }
-}
+// void Player::UpdateBullet() {
+//   if ((bullet != nullptr) && (bullet->health == 1)) {
+//     bullet->Update();
+//   }
+// }
 
-void Player::Fire() {
-  if (bullet != nullptr) {
-    if (bullet->health == 0) {
-      bullet->health = 1;
-      bullet->x = this->x;
-      bullet->y = this->y;
-      bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
-    }
-  } else {
-    bullet = std::make_unique<Bullet>(renderer, this->x, this->y);
-    bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
-  }
-}
+// void Player::Fire() {
+//   if (bullet != nullptr) {
+//     if (bullet->health == 0) {
+//       bullet->health = 1;
+//       bullet->x = this->x;
+//       bullet->y = this->y;
+//       bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
+//     }
+//   } else {
+//     bullet = std::make_unique<Bullet>(renderer, this->x, this->y);
+//     bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
+//   }
+// }
 
 void Player::UpdatePosition() {
   if (y < 0)

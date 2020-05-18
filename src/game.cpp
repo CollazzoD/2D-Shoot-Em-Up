@@ -3,10 +3,18 @@
 #include <functional>
 #include <iostream>
 
-Game::Game()
-    : renderer(kScreenWidth, kScreenHeight), controller(), player(renderer) {}
+Game::Game(Renderer &renderer) {
+  player_texture =
+      std::make_unique<Texture>(renderer.LoadTexture("../gfx/player.png"));
+  bullet_texture = std::make_unique<Texture>(
+      renderer.LoadTexture("../gfx/playerBullet.png"));
+  player = std::make_unique<Player>(player_texture->GetTexture());
+}
 
-void Game::Run(std::size_t target_frame_duration) {
+Game::~Game() {}
+
+void Game::Run(Controller const &controller, Renderer &renderer,
+               std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
@@ -19,14 +27,11 @@ void Game::Run(std::size_t target_frame_duration) {
 
     // Input, Update, Render - the main game loop.
     renderer.PrepareScene();
-    controller.HandleInput(running, player);
-    
+    controller.HandleInput(running, player.get());
+
     Update();
 
-    if ((player.bullet != nullptr) && (player.bullet->health == 1))
-      renderer.RenderTexture(player.bullet->texture, player.bullet->x, player.bullet->y);
-
-    renderer.RenderTexture(player.texture, player.x, player.y);
+    renderer.RenderTexture(player.get());
     renderer.PresentScene();
 
     frame_end = SDL_GetTicks();
@@ -38,7 +43,7 @@ void Game::Run(std::size_t target_frame_duration) {
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(frame_count);
+      renderer.UpdateWindowTitle(player->GetX(), player->GetY(), frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -52,6 +57,4 @@ void Game::Run(std::size_t target_frame_duration) {
   }
 }
 
-void Game::Update() {
-  player.Update();
-}
+void Game::Update() { player->Update(); }

@@ -1,16 +1,17 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <string>
+#include "entity.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <string>
 
 constexpr std::size_t kScreenWidth{1280};
 constexpr std::size_t kScreenHeight{720};
 
 class Renderer {
- public:
-  Renderer(const std::size_t screen_width, const std::size_t screen_height);
+public:
+  Renderer();
   ~Renderer();
 
   Renderer(const Renderer &source) = delete;
@@ -20,11 +21,11 @@ class Renderer {
 
   void PrepareScene();
   void PresentScene();
-  void UpdateWindowTitle(int fps);
-  void RenderTexture(SDL_Texture *texture, int x, int y);
-  SDL_Texture* LoadTexture(const std::string& filename) const;
+  void UpdateWindowTitle(const int &x, const int&y, const int &fps);
+  void RenderTexture(const Entity *entity);
+  SDL_Texture *LoadTexture(const std::string &filename) const;
 
- private:
+private:
   SDL_Window *sdl_window;
   SDL_Renderer *sdl_renderer;
 
