@@ -5,32 +5,40 @@
 Player::Player(SDL_Texture *texture, Bullet bullet_forge,
                std::forward_list<std::unique_ptr<Bullet>> &bullets)
     : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
-      bullet_forge(std::move(bullet_forge)), bullets(bullets) {}
+      bullet_forge(std::move(bullet_forge)), bullets(bullets), reload(0){}
 
 void Player::Update() {
+  
+  dx = dy = 0;
+
+  if (reload > 0)
+    reload--;
   switch (direction) {
   case Direction::kUp:
-    y -= speed;
+    dy = -speed;
     break;
 
   case Direction::kDown:
-    y += speed;
+    dy = speed;
     break;
 
   case Direction::kLeft:
-    x -= speed;
+    dx = -speed;
     break;
 
   case Direction::kRight:
-    x += speed;
+    dx = speed;
     break;
 
   case Direction::kStop:
     break;
   }
-  UpdatePosition();
 
-  if (fire)
+  x += dx;
+  y += dy;
+  CheckPosition();
+
+  if (fire && (reload == 0))
     FireBullet();
 }
 
@@ -47,6 +55,7 @@ void Player::FireBullet() {
   bullet->SetX(this->x);
   bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
   bullets.push_front(std::move(bullet));
+  reload = 8;
 }
 
 void Player::CheckPosition() {

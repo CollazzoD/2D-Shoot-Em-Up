@@ -37,6 +37,7 @@ private:
   Bullet bullet_forge; // used to create other bullets
   std::forward_list<std::unique_ptr<Bullet>> &bullets;
   bool fire{false};
+  int reload;
 };
 
 #endif
