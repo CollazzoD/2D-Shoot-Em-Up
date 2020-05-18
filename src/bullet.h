@@ -3,6 +3,7 @@
 
 #include "entity.h"
 #include "renderer.h"
+#include <iostream>
 
 constexpr int BULLET_SPEED{16};
 

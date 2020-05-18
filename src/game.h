@@ -8,6 +8,7 @@
 #include "texture.h"
 #include <SDL2/SDL.h>
 #include <memory>
+#include <forward_list>
 
 class Game {
 public:
@@ -22,6 +23,7 @@ private:
   std::unique_ptr<Texture> bullet_texture;
 
   std::unique_ptr<Player> player;
+  std::forward_list<std::unique_ptr<Bullet>> bullets;
   void Update();
 };
 

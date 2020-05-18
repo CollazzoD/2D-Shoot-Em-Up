@@ -2,9 +2,10 @@
 #include <iostream>
 
 // Renderer is needed in order to load the texture
-Player::Player(SDL_Texture *texture)
-    : Entity( texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y,
-             PLAYER_SPEED) {}
+Player::Player(SDL_Texture *texture, SDL_Texture *bullet_texture,
+               std::forward_list<std::unique_ptr<Bullet>> &bullets)
+    : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
+      bullet_texture(bullet_texture), bullets(bullets) {}
 
 void Player::Update() {
   switch (direction) {
@@ -36,19 +37,11 @@ void Player::Update() {
 //   }
 // }
 
-// void Player::Fire() {
-//   if (bullet != nullptr) {
-//     if (bullet->health == 0) {
-//       bullet->health = 1;
-//       bullet->x = this->x;
-//       bullet->y = this->y;
-//       bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
-//     }
-//   } else {
-//     bullet = std::make_unique<Bullet>(renderer, this->x, this->y);
-//     bullet->y += (this->texture_height / 2) - (bullet->GetTextureHeight() / 2);
-//   }
-// }
+void Player::Fire() {
+  auto bullet_y = y + (this->texture_height / 2);
+  auto bullet = std::make_unique<Bullet>(bullet_texture, x, y);
+  bullets.push_front(std::move(bullet));
+}
 
 void Player::UpdatePosition() {
   if (y < 0)

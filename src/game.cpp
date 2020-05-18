@@ -8,7 +8,8 @@ Game::Game(Renderer &renderer) {
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/player.png"));
   bullet_texture = std::make_unique<Texture>(
       renderer.LoadTexture("../gfx/playerBullet.png"));
-  player = std::make_unique<Player>(player_texture->GetTexture());
+  player = std::make_unique<Player>(player_texture->GetTexture(),
+                                    bullet_texture->GetTexture(), bullets);
 }
 
 Game::~Game() {}
@@ -30,6 +31,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     controller.HandleInput(running, player.get());
 
     Update();
+
+    for (auto const &bullet : bullets)
+      if (bullet->GetHealth() == 1)
+        renderer.RenderTexture(bullet.get());
 
     renderer.RenderTexture(player.get());
     renderer.PresentScene();
@@ -57,4 +62,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::Update() { player->Update(); }
+void Game::Update() {
+  player->Update();
+
+  for (const auto &bullet : bullets) {
+    if (!bullet && bullet->GetHealth() == 0)
+      bullets.remove(bullet);
+    else
+      bullet->Update();
+  }
+}
