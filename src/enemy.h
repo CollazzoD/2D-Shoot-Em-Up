@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "bullet.h"
+#include "alienBullet.h"
 #include "entity.h"
 #include "renderer.h"
 #include <SDL2/SDL.h>
@@ -17,8 +17,8 @@ constexpr int ENEMY_MIN_SPEED{2};
 class Enemy : public Entity {
 public:
   Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
-        Bullet bullet_forge,
-        std::forward_list<std::unique_ptr<Bullet>> &enemy_bullets);
+        AlienBullet bullet_forge,
+        std::forward_list<std::unique_ptr<AlienBullet>> &enemy_bullets);
   ~Enemy() = default;
   Enemy(const Enemy &source) = delete;
   Enemy &operator=(const Enemy &source) = delete;
@@ -31,8 +31,8 @@ private:
   void CheckPosition();
   void Fire();
 
-  Bullet bullet_forge; // used to create other bullets
-  std::forward_list<std::unique_ptr<Bullet>> &enemy_bullets;
+  AlienBullet bullet_forge; // used to create other bullets
+  std::forward_list<std::unique_ptr<AlienBullet>> &enemy_bullets;
   int reload;
 };
 

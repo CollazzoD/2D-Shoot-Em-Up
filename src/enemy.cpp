@@ -2,8 +2,8 @@
 #include <iostream>
 
 Enemy::Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
-             Bullet bullet_forge,
-             std::forward_list<std::unique_ptr<Bullet>> &enemy_bullets)
+             AlienBullet bullet_forge,
+             std::forward_list<std::unique_ptr<AlienBullet>> &enemy_bullets)
     : Entity(texture, x, y, speed), bullet_forge(std::move(bullet_forge)),
       enemy_bullets(enemy_bullets), reload(ENEMY_RELOAD) {
   dx = -speed;
@@ -22,7 +22,7 @@ void Enemy::Update() {
 }
 
 void Enemy::Fire() {
-  auto bullet = std::make_unique<Bullet>(bullet_forge);
+  auto bullet = std::make_unique<AlienBullet>(bullet_forge);
   bullet->SetX(this->x);
   bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
   enemy_bullets.push_front(std::move(bullet));

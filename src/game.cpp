@@ -13,6 +13,7 @@ Game::Game(Renderer &renderer) {
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/enemy.png"));
   enemy_bullet_texture =
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/alienBullet.png"));
+
   Bullet bullet_forge(bullet_texture->GetTexture(), 0, 0);
   player = std::make_unique<Player>(player_texture->GetTexture(),
                                     std::move(bullet_forge), bullets);
@@ -84,20 +85,14 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::Debug() {
-  for (const auto &enemy : enemies) {
-    if (enemy && enemy->GetHealth() == 1)
-      std::cout << "Enemy X: " << enemy->GetX() << ", Enemy Y: " << enemy->GetY() << std::endl;
-  }
-} 
 
 void Game::SpawnEnemy() {
   enemySpawnTimer--;
   if (enemySpawnTimer <= 0) {
-    Bullet bullet_forge(bullet_texture->GetTexture(), 0, 0);
+    AlienBullet alien_bullet_forge = AlienBullet(enemy_bullet_texture->GetTexture(), 0, 0);
     auto enemy = std::make_unique<Enemy>(
         enemy_texture->GetTexture(), kScreenWidth, enemy_random_pos(engine),
-        enemy_random_speed(engine), std::move(bullet_forge), enemies_bullets);
+        enemy_random_speed(engine), std::move(alien_bullet_forge), enemies_bullets);
     enemies.push_front(std::move(enemy));
     enemySpawnTimer = 120;
   }
@@ -107,7 +102,6 @@ void Game::Update() {
   // Update player
   player->Update();
   SpawnEnemy();
-  Debug();
   for (const auto &bullet : bullets) {
     if (!bullet && bullet->GetHealth() == 0)
       bullets.remove(bullet);

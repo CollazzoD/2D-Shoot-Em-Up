@@ -7,6 +7,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "alienBullet.h"
 #include "texture.h"
 #include <SDL2/SDL.h>
 #include <memory>
@@ -34,12 +35,10 @@ private:
   std::unique_ptr<Player> player;
   std::forward_list<std::unique_ptr<Bullet>> bullets;
   std::forward_list<std::unique_ptr<Enemy>> enemies;
-  std::forward_list<std::unique_ptr<Bullet>> enemies_bullets;
+  std::forward_list<std::unique_ptr<AlienBullet>> enemies_bullets;
   void Update();
   void SpawnEnemy();
   int enemySpawnTimer{120};
-
-  void Debug();
 };
 
 #endif
