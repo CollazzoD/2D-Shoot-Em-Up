@@ -6,7 +6,7 @@
 #include "renderer.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <forward_list>
+#include <list>
 #include <memory>
 #include <random>
 
@@ -18,8 +18,8 @@ class Enemy : public Entity {
 public:
   Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
         AlienBullet bullet_forge,
-        std::forward_list<std::unique_ptr<AlienBullet>> &enemy_bullets);
-  ~Enemy() = default;
+        std::list<std::unique_ptr<AlienBullet>> &enemy_bullets);
+  ~Enemy() { std::cout << "Enemy destroyed " << std::endl;};
   Enemy(const Enemy &source) = delete;
   Enemy &operator=(const Enemy &source) = delete;
   Enemy(Enemy &&source) = default;
@@ -32,7 +32,7 @@ private:
   void Fire();
 
   AlienBullet bullet_forge; // used to create other bullets
-  std::forward_list<std::unique_ptr<AlienBullet>> &enemy_bullets;
+  std::list<std::unique_ptr<AlienBullet>> &enemy_bullets;
   int reload;
 };
 

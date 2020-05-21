@@ -11,7 +11,9 @@
 #include "texture.h"
 #include <SDL2/SDL.h>
 #include <memory>
-#include <forward_list>
+#include <list>
+
+constexpr int ENEMY_SPAWN_TIMER = 120;
 
 class Game {
 public:
@@ -33,12 +35,16 @@ private:
   std::unique_ptr<Texture> enemy_bullet_texture;
 
   std::unique_ptr<Player> player;
-  std::forward_list<std::unique_ptr<Bullet>> bullets;
-  std::forward_list<std::unique_ptr<Enemy>> enemies;
-  std::forward_list<std::unique_ptr<AlienBullet>> enemies_bullets;
+  std::list<std::unique_ptr<Bullet>> bullets;
+  std::list<std::unique_ptr<Enemy>> enemies;
+  std::list<std::unique_ptr<AlienBullet>> enemies_bullets;
+  
+  int enemySpawnTimer{ENEMY_SPAWN_TIMER};
+  
   void Update();
   void SpawnEnemy();
-  int enemySpawnTimer{120};
+  void CheckCollision();
+  bool Collision(const Entity* e1, const Entity* e2);
 };
 
 #endif

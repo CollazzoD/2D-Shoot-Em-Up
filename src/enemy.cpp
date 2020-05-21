@@ -3,7 +3,7 @@
 
 Enemy::Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
              AlienBullet bullet_forge,
-             std::forward_list<std::unique_ptr<AlienBullet>> &enemy_bullets)
+             std::list<std::unique_ptr<AlienBullet>> &enemy_bullets)
     : Entity(texture, x, y, speed), bullet_forge(std::move(bullet_forge)),
       enemy_bullets(enemy_bullets), reload(ENEMY_RELOAD) {
   dx = -speed;

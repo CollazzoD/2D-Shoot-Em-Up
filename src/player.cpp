@@ -3,7 +3,7 @@
 
 // Renderer is needed in order to load the texture
 Player::Player(SDL_Texture *texture, Bullet bullet_forge,
-               std::forward_list<std::unique_ptr<Bullet>> &bullets)
+               std::list<std::unique_ptr<Bullet>> &bullets)
     : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
       bullet_forge(std::move(bullet_forge)), bullets(bullets), reload(0){}
 

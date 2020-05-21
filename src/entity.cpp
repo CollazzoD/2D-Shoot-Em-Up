@@ -38,3 +38,7 @@ Entity &Entity::operator=(Entity &&source) {
   health = source.health;
   return *this;
 }
+
+void Entity::Hit() {
+  health--;
+}

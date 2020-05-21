@@ -21,6 +21,7 @@ public:
   SDL_Texture* GetTexture() const {return texture;}
 
   virtual void Update() = 0;
+  void Hit();
 protected:
   int x;
   int y;
