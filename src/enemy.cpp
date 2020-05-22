@@ -27,12 +27,16 @@ void Enemy::Fire() {
   CalcSlope(dx, dy);
   dx *= ALIEN_BULLET_SPEED;
   dy *= ALIEN_BULLET_SPEED;
-  auto bullet = std::make_unique<AlienBullet>(bullet_forge);
-  bullet->SetX(this->x);
-  bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
-  bullet->SetDx(dx);
-  bullet->SetDy(dy);
-  enemy_bullets.push_front(std::move(bullet));
+
+  // If the player is behind the enemy I don't want to shoot him
+  if (dx < 0) {
+    auto bullet = std::make_unique<AlienBullet>(bullet_forge);
+    bullet->SetX(this->x);
+    bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
+    bullet->SetDx(dx);
+    bullet->SetDy(dy);
+    enemy_bullets.push_front(std::move(bullet));
+  }
   reload = ENEMY_RELOAD;
 }
 
