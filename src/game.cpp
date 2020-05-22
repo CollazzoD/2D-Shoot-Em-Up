@@ -28,6 +28,31 @@ Game::Game(Renderer &renderer) {
 
 Game::~Game() {}
 
+void Game::ResetStage() {
+  bullets.erase(begin(bullets), end(bullets));
+  enemies.erase(begin(enemies), end(enemies));
+  enemies_bullets.erase(begin(enemies_bullets), end(enemies_bullets));
+  player->Init();
+  enemySpawnTimer = ENEMY_SPAWN_TIMER;
+}
+
+void Game::RenderGameEntities(Renderer &renderer) {
+  if (player->GetHealth() == 1)
+    renderer.RenderTexture(player.get());
+
+  for (auto const &bullet : bullets)
+    if (bullet->GetHealth() == 1)
+      renderer.RenderTexture(bullet.get());
+
+  for (auto const &enemy : enemies)
+    if (enemy->GetHealth() == 1)
+      renderer.RenderTexture(enemy.get());
+
+  for (auto const &bullet : enemies_bullets)
+    if (bullet->GetHealth() == 1)
+      renderer.RenderTexture(bullet.get());
+}
+
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
@@ -45,21 +70,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     controller.HandleInput(running, player.get());
 
     Update();
-
-    if (player->GetHealth() == 1)
-      renderer.RenderTexture(player.get());
-
-    for (auto const &bullet : bullets)
-      if (bullet->GetHealth() == 1)
-        renderer.RenderTexture(bullet.get());
-
-    for (auto const &enemy : enemies)
-      if (enemy->GetHealth() == 1)
-        renderer.RenderTexture(enemy.get());
-
-    for (auto const &bullet : enemies_bullets)
-      if (bullet->GetHealth() == 1)
-        renderer.RenderTexture(bullet.get());
+    RenderGameEntities(renderer);
 
     renderer.PresentScene();
 

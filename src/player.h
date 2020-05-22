@@ -26,6 +26,7 @@ public:
   void Update() override;
   void Fire();
   void StopFire();
+  void Init();
 
   enum class Direction { kUp, kDown, kLeft, kRight, kStop };
   Direction direction = Direction::kStop;

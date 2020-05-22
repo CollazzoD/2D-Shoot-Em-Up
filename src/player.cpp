@@ -7,6 +7,13 @@ Player::Player(SDL_Texture *texture, Bullet bullet_forge,
     : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
       bullet_forge(std::move(bullet_forge)), bullets(bullets), reload(0) {}
 
+void Player::Init() {
+  x = PLAYER_INITIAL_X;
+  y = PLAYER_INITIAL_Y;
+  speed = PLAYER_SPEED;
+  reload = 0;
+}
+
 void Player::Update() {
 
   dx = dy = 0;

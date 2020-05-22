@@ -45,6 +45,8 @@ private:
   void SpawnEnemy();
   void CheckCollision();
   bool Collision(const Entity* e1, const Entity* e2);
+  void ResetStage();
+  void RenderGameEntities(Renderer &renderer);
 };
 
 #endif
