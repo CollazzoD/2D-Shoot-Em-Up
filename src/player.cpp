@@ -11,6 +11,7 @@ void Player::Init() {
   x = PLAYER_INITIAL_X;
   y = PLAYER_INITIAL_Y;
   speed = PLAYER_SPEED;
+  health = 1;
   reload = 0;
 }
 

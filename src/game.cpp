@@ -33,7 +33,8 @@ void Game::ResetStage() {
   enemies.erase(begin(enemies), end(enemies));
   enemies_bullets.erase(begin(enemies_bullets), end(enemies_bullets));
   player->Init();
-  enemySpawnTimer = ENEMY_SPAWN_TIMER;
+  enemy_spawn_timer = ENEMY_SPAWN_TIMER;
+  reset_stage_timer = RESET_STAGE_TIMER;
 }
 
 void Game::RenderGameEntities(Renderer &renderer) {
@@ -81,6 +82,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_count++;
     frame_duration = frame_end - frame_start;
 
+    if (player->GetHealth() == 0) {
+      reset_stage_timer--;
+      if (reset_stage_timer == 0)
+        ResetStage();
+    }
+
+
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
       renderer.UpdateWindowTitle(player->GetX(), player->GetY(), frame_count);
@@ -98,8 +106,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 }
 
 void Game::SpawnEnemy() {
-  enemySpawnTimer--;
-  if (enemySpawnTimer <= 0) {
+  enemy_spawn_timer--;
+  if (enemy_spawn_timer <= 0) {
     AlienBullet alien_bullet_forge =
         AlienBullet(enemy_bullet_texture->GetTexture(), 0, 0);
     auto enemy = std::make_unique<Enemy>(
@@ -107,7 +115,7 @@ void Game::SpawnEnemy() {
         enemy_random_speed(engine), std::move(alien_bullet_forge),
         enemies_bullets, player.get());
     enemies.push_front(std::move(enemy));
-    enemySpawnTimer = ENEMY_SPAWN_TIMER;
+    enemy_spawn_timer = ENEMY_SPAWN_TIMER;
   }
 }
 

@@ -14,6 +14,7 @@
 #include <list>
 
 constexpr int ENEMY_SPAWN_TIMER = 120;
+constexpr int RESET_STAGE_TIMER = 300;
 
 class Game {
 public:
@@ -39,7 +40,8 @@ private:
   std::list<std::unique_ptr<Enemy>> enemies;
   std::list<std::unique_ptr<AlienBullet>> enemies_bullets;
   
-  int enemySpawnTimer{ENEMY_SPAWN_TIMER};
+  int enemy_spawn_timer{ENEMY_SPAWN_TIMER};
+  int reset_stage_timer{RESET_STAGE_TIMER};
   
   void Update();
   void SpawnEnemy();
