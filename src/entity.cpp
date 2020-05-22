@@ -4,8 +4,14 @@
 Entity::Entity(SDL_Texture *texture, const int &x, const int &y,
                const int &speed)
     : texture(texture), x(x), y(y), speed(speed), dx(0), dy(0), health(1) {
-      SDL_QueryTexture(texture, NULL, NULL, &width, &height);
-    };
+  SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+};
+
+Entity::Entity(SDL_Texture *texture, const int &x, const int &y,
+               const int &speed, const float &dx, const float &dy)
+    : texture(texture), x(x), y(y), speed(speed), dx(dx), dy(dy), health(1) {
+  SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+};
 
 Entity::~Entity() {}
 
@@ -39,6 +45,4 @@ Entity &Entity::operator=(Entity &&source) {
   return *this;
 }
 
-void Entity::Hit() {
-  health--;
-}
+void Entity::Hit() { health--; }

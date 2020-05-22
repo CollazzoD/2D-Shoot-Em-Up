@@ -92,7 +92,7 @@ void Game::SpawnEnemy() {
     AlienBullet alien_bullet_forge = AlienBullet(enemy_bullet_texture->GetTexture(), 0, 0);
     auto enemy = std::make_unique<Enemy>(
         enemy_texture->GetTexture(), kScreenWidth, enemy_random_pos(engine),
-        enemy_random_speed(engine), std::move(alien_bullet_forge), enemies_bullets);
+        enemy_random_speed(engine), std::move(alien_bullet_forge), enemies_bullets, player.get());
     enemies.push_front(std::move(enemy));
     enemySpawnTimer = ENEMY_SPAWN_TIMER;
   }
@@ -101,15 +101,10 @@ void Game::SpawnEnemy() {
 void Game::Update() {
   // Update player
   player->Update();
+
   SpawnEnemy();
 
-  // i = 0;
-  // for (auto &bullet : bullets)
-  //   i++;
-
-  // if (i != 0)
-  //   std::cout << i << std::endl;
-    
+  // Update bullets
   for (auto bullet = begin(bullets); bullet != end(bullets);) {
     if (!*bullet) {
       bullet = bullets.erase(bullet);
@@ -124,19 +119,7 @@ void Game::Update() {
     }
   }
 
-  // for (auto &enemy : enemies) {
-  //   if (!enemy) {
-  //     std::cout << "Remove enemy" << std::endl;
-  //     enemies.remove(enemy);
-  //   }
-  //   else if (enemy->GetHealth() == 0) {
-  //     std::cout << "Remove enemy" << std::endl;
-  //     enemies.remove(enemy);
-  //   }
-  //   else
-  //     enemy->Update();
-  // }
-
+  // Update enemies
   for (auto enemy = begin(enemies); enemy != end(enemies);) {
     if (!*enemy) {
       enemy = enemies.erase(enemy);
@@ -151,13 +134,7 @@ void Game::Update() {
     }
   }
 
-  // for (auto &bullet : enemies_bullets) {
-  //   if (!bullet && bullet->GetHealth() == 0)
-  //     enemies_bullets.remove(bullet);
-  //   else
-  //     bullet->Update();
-  // }
-
+  // Update enemies bullets
   for (auto bullet = begin(enemies_bullets); bullet != end(enemies_bullets);) {
     if (!*bullet) {
       bullet = enemies_bullets.erase(bullet);
@@ -186,6 +163,7 @@ bool Game::Collision(const Entity* e1, const Entity* e2) {
 }
 
 void Game::CheckCollision() {
+  // Player bullet's enemies collision
   for (const auto &enemy : enemies)
     for (const auto &bullet : bullets)
       if (Collision(enemy.get(), bullet.get())) {

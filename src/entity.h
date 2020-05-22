@@ -7,6 +7,7 @@
 class Entity {
 public:
   Entity(SDL_Texture* texture, const int &x, const int &y, const int &speed);
+  Entity(SDL_Texture* texture, const int &x, const int &y, const int &speed, const float &dx, const float &dy);
   ~Entity();
   Entity(const Entity &source) = default;
   Entity &operator=(const Entity &source) = default;
@@ -25,8 +26,8 @@ public:
 protected:
   int x;
   int y;
-  int dx;
-  int dy;
+  float dx;
+  float dy;
   int speed;
   int health;
   int width;

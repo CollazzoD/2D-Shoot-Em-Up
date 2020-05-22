@@ -9,7 +9,8 @@ constexpr int ALIEN_BULLET_SPEED{16};
 
 class AlienBullet : public Entity {
 public:
-  AlienBullet(SDL_Texture *texture, int x, int y);
+  AlienBullet(SDL_Texture *texture, const int &x, const int &y);
+  AlienBullet(SDL_Texture *texture, const int &x, const int &y, const float &dx, const float &dy);
   ~AlienBullet() = default;
   AlienBullet(const AlienBullet &source) = default;
   AlienBullet &operator=(const AlienBullet &source) = default;
@@ -17,8 +18,10 @@ public:
   AlienBullet &operator=(AlienBullet &&source) = default;
 
   void Update() override;
-  void SetY(int new_y) { y = new_y; }
-  void SetX(int new_x) { x = new_x; }
+  void SetY(const int &new_y) { y = new_y; }
+  void SetX(const int &new_x) { x = new_x; }
+  void SetDx(const float &new_dx ) {dx = new_dx;}
+  void SetDy(const float &new_dy ) {dy = new_dy;}
 
 private:
 };
