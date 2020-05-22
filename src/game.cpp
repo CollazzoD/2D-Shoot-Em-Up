@@ -46,7 +46,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     Update();
 
-    renderer.RenderTexture(player.get());
+    if (player->GetHealth() == 1)
+      renderer.RenderTexture(player.get());
 
     for (auto const &bullet : bullets)
       if (bullet->GetHealth() == 1)
@@ -59,7 +60,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     for (auto const &bullet : enemies_bullets)
       if (bullet->GetHealth() == 1)
         renderer.RenderTexture(bullet.get());
-    
+
     renderer.PresentScene();
 
     frame_end = SDL_GetTicks();
@@ -85,14 +86,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-
 void Game::SpawnEnemy() {
   enemySpawnTimer--;
   if (enemySpawnTimer <= 0) {
-    AlienBullet alien_bullet_forge = AlienBullet(enemy_bullet_texture->GetTexture(), 0, 0);
+    AlienBullet alien_bullet_forge =
+        AlienBullet(enemy_bullet_texture->GetTexture(), 0, 0);
     auto enemy = std::make_unique<Enemy>(
         enemy_texture->GetTexture(), kScreenWidth, enemy_random_pos(engine),
-        enemy_random_speed(engine), std::move(alien_bullet_forge), enemies_bullets, player.get());
+        enemy_random_speed(engine), std::move(alien_bullet_forge),
+        enemies_bullets, player.get());
     enemies.push_front(std::move(enemy));
     enemySpawnTimer = ENEMY_SPAWN_TIMER;
   }
@@ -112,8 +114,7 @@ void Game::Update() {
       std::cout << "Remove no health bullet" << std::endl;
       bullet = bullets.erase(bullet);
       std::cout << "Bullet removed" << std::endl;
-    }
-    else {
+    } else {
       (*bullet)->Update();
       bullet++;
     }
@@ -127,8 +128,7 @@ void Game::Update() {
       std::cout << "Remove no health bullet" << std::endl;
       enemy = enemies.erase(enemy);
       std::cout << "Bullet removed" << std::endl;
-    }
-    else {
+    } else {
       (*enemy)->Update();
       enemy++;
     }
@@ -142,8 +142,7 @@ void Game::Update() {
       std::cout << "Remove no health bullet" << std::endl;
       bullet = enemies_bullets.erase(bullet);
       std::cout << "Bullet removed" << std::endl;
-    }
-    else {
+    } else {
       (*bullet)->Update();
       bullet++;
     }
@@ -152,12 +151,14 @@ void Game::Update() {
   CheckCollision();
 }
 
-bool Game::Collision(const Entity* e1, const Entity* e2) {
+bool Game::Collision(const Entity *e1, const Entity *e2) {
   int max_x = std::max<int>(e1->GetX(), e2->GetX());
-  int min_xw = std::min<int>(e1->GetX() + e1->GetWidth(), e2->GetX() + e2->GetWidth());
+  int min_xw =
+      std::min<int>(e1->GetX() + e1->GetWidth(), e2->GetX() + e2->GetWidth());
 
   int max_y = std::max<int>(e1->GetY(), e2->GetY());
-  int min_yh = std::min<int>(e1->GetY() + e1->GetHeight(), e2->GetY() + e2->GetHeight());
+  int min_yh =
+      std::min<int>(e1->GetY() + e1->GetHeight(), e2->GetY() + e2->GetHeight());
 
   return (max_x < min_xw) && (max_y < min_yh);
 }
@@ -170,4 +171,11 @@ void Game::CheckCollision() {
         enemy->Hit();
         bullet->Hit();
       }
+
+  // Enemies bullet's Player collision
+  for (const auto &bullet : enemies_bullets)
+    if (Collision(player.get(), bullet.get())) {
+      player->Hit();
+      bullet->Hit();
+    }
 }

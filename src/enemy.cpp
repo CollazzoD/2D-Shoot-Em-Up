@@ -4,9 +4,9 @@
 Enemy::Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
              AlienBullet bullet_forge,
              std::list<std::unique_ptr<AlienBullet>> &enemy_bullets,
-             const Player *target)
+             const Player *player)
     : Entity(texture, x, y, speed), bullet_forge(std::move(bullet_forge)),
-      enemy_bullets(enemy_bullets), reload(ENEMY_RELOAD), target(target) {
+      enemy_bullets(enemy_bullets), reload(ENEMY_RELOAD), player(player) {
   dx = -speed;
 }
 
@@ -28,8 +28,8 @@ void Enemy::Fire() {
   dx *= ALIEN_BULLET_SPEED;
   dy *= ALIEN_BULLET_SPEED;
 
-  // If the player is behind the enemy I don't want to shoot him
-  if (dx < 0) {
+  // I shoot the player only if he's alive and not behind me
+  if ((player->GetHealth() > 0) && (dx < 0)) {
     auto bullet = std::make_unique<AlienBullet>(bullet_forge);
     bullet->SetX(this->x);
     bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
@@ -46,8 +46,8 @@ void Enemy::CheckPosition() {
 }
 
 void Enemy::CalcSlope(float &dx, float &dy) {
-  int x1 = target->GetX() + (target->GetWidth() / 2);
-  int y1 = target->GetY() + (target->GetHeight() / 2);
+  int x1 = player->GetX() + (player->GetWidth() / 2);
+  int y1 = player->GetY() + (player->GetHeight() / 2);
 
   int steps = std::max(std::abs(x1 - x), std::abs(y1 - y));
 

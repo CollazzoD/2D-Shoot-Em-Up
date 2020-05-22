@@ -5,10 +5,10 @@
 Player::Player(SDL_Texture *texture, Bullet bullet_forge,
                std::list<std::unique_ptr<Bullet>> &bullets)
     : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
-      bullet_forge(std::move(bullet_forge)), bullets(bullets), reload(0){}
+      bullet_forge(std::move(bullet_forge)), bullets(bullets), reload(0) {}
 
 void Player::Update() {
-  
+
   dx = dy = 0;
 
   if (reload > 0)
@@ -42,20 +42,18 @@ void Player::Update() {
     FireBullet();
 }
 
-void Player::Fire() {
-  fire = true;
-}
+void Player::Fire() { fire = true; }
 
-void Player::StopFire() {
-  fire = false;
-}
+void Player::StopFire() { fire = false; }
 
 void Player::FireBullet() {
-  auto bullet = std::make_unique<Bullet>(bullet_forge);
-  bullet->SetX(this->x);
-  bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
-  bullets.push_front(std::move(bullet));
-  reload = 8;
+  if (health > 0) {
+    auto bullet = std::make_unique<Bullet>(bullet_forge);
+    bullet->SetX(this->x);
+    bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
+    bullets.push_front(std::move(bullet));
+    reload = 8;
+  }
 }
 
 void Player::CheckPosition() {

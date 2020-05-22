@@ -19,7 +19,7 @@ class Enemy : public Entity {
 public:
   Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
         AlienBullet bullet_forge,
-        std::list<std::unique_ptr<AlienBullet>> &enemy_bullets, const Player* target);
+        std::list<std::unique_ptr<AlienBullet>> &enemy_bullets, const Player* player);
   ~Enemy() { std::cout << "Enemy destroyed " << std::endl;};
   Enemy(const Enemy &source) = delete;
   Enemy &operator=(const Enemy &source) = delete;
@@ -36,7 +36,7 @@ private:
 
   int bullet_dx;
   int bullet_dy;
-  const Player* target;
+  const Player* player;
 
   AlienBullet bullet_forge; // used to create other bullets
   std::list<std::unique_ptr<AlienBullet>> &enemy_bullets;
