@@ -22,7 +22,7 @@ public:
 
   void PrepareScene();
   void PresentScene();
-  void UpdateWindowTitle(const int &x, const int &y, const int &fps);
+  void UpdateWindowTitle(const int &fps);
   void RenderTexture(const Entity *entity);
   void RenderBackground();
   void RenderStars(const Stars &stars);

@@ -85,9 +85,8 @@ void Renderer::PrepareScene() {
 
 void Renderer::PresentScene() { SDL_RenderPresent(sdl_renderer); }
 
-void Renderer::UpdateWindowTitle(const int &x, const int &y, const int &fps) {
-  std::string title{"X : " + std::to_string(x) + ", Y : " + std::to_string(y) +
-                    ", FPS: " + std::to_string(fps)};
+void Renderer::UpdateWindowTitle(const int &fps) {
+  std::string title{"FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
 
@@ -177,14 +176,14 @@ void Renderer::RenderStars(const Stars &stars) {
   }
 }
 
-void Renderer::BlitRect(SDL_Texture *texture, const SDL_Rect *src, const int &x, const int &y)
-{
-	SDL_Rect dest;
-	
-	dest.x = x;
-	dest.y = y;
-	dest.w = src->w;
-	dest.h = src->h;
-	
-	SDL_RenderCopy(sdl_renderer, texture, src, &dest);
+void Renderer::BlitRect(SDL_Texture *texture, const SDL_Rect *src, const int &x,
+                        const int &y) {
+  SDL_Rect dest;
+
+  dest.x = x;
+  dest.y = y;
+  dest.w = src->w;
+  dest.h = src->h;
+
+  SDL_RenderCopy(sdl_renderer, texture, src, &dest);
 }
