@@ -36,6 +36,9 @@ Renderer::Renderer()
     std::cerr << "IMG_Init: Failed to init required jpg and png support!\n";
     std::cerr << "IMG_Init: " << IMG_GetError() << "\n";
   }
+
+  background_texture =
+      std::make_unique<Texture>(LoadTexture("../gfx/background.png"));
 }
 
 Renderer::~Renderer() {
@@ -75,12 +78,15 @@ void Renderer::PrepareScene() {
   // Clear screen
   SDL_SetRenderDrawColor(sdl_renderer, 32, 32, 32, 255);
   SDL_RenderClear(sdl_renderer);
+  RenderBackground();
+  UpdateBackground();
 }
 
 void Renderer::PresentScene() { SDL_RenderPresent(sdl_renderer); }
 
 void Renderer::UpdateWindowTitle(const int &x, const int &y, const int &fps) {
-  std::string title{"X : " + std::to_string(x) + ", Y : " + std::to_string(y) + ", FPS: " + std::to_string(fps)};
+  std::string title{"X : " + std::to_string(x) + ", Y : " + std::to_string(y) +
+                    ", FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
 
@@ -115,4 +121,22 @@ void Renderer::RenderTexture(const Entity *entity) {
   dest.w = entity->GetWidth();
   dest.h = entity->GetHeight();
   SDL_RenderCopy(sdl_renderer, entity->GetTexture(), NULL, &dest);
+}
+
+void Renderer::UpdateBackground() {
+  backgroundX--;
+  if (backgroundX < -kScreenWidth)
+    backgroundX = 0;
+}
+
+void Renderer::RenderBackground() {
+  SDL_Rect dest;
+  for (int x = backgroundX; x < kScreenWidth; x += kScreenWidth) {
+    dest.x = x;
+    dest.y = 0;
+    dest.w = kScreenWidth;
+    dest.h = kScreenHeight;
+
+    SDL_RenderCopy(sdl_renderer, background_texture->GetTexture(), NULL, &dest);
+  }
 }

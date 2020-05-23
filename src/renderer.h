@@ -2,12 +2,14 @@
 #define RENDERER_H
 
 #include "entity.h"
+#include "texture.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include <memory>
 
-constexpr std::size_t kScreenWidth{1280};
-constexpr std::size_t kScreenHeight{720};
+constexpr int kScreenWidth{1280};
+constexpr int kScreenHeight{720};
 
 class Renderer {
 public:
@@ -21,16 +23,21 @@ public:
 
   void PrepareScene();
   void PresentScene();
-  void UpdateWindowTitle(const int &x, const int&y, const int &fps);
+  void UpdateWindowTitle(const int &x, const int &y, const int &fps);
   void RenderTexture(const Entity *entity);
+  void RenderBackground();
   SDL_Texture *LoadTexture(const std::string &filename) const;
 
 private:
+  void UpdateBackground();
+  std::unique_ptr<Texture> background_texture;
+  int backgroundX{0};
+
   SDL_Window *sdl_window;
   SDL_Renderer *sdl_renderer;
 
-  std::size_t screen_width;
-  std::size_t screen_height;
+  int screen_width;
+  int screen_height;
 };
 
 #endif

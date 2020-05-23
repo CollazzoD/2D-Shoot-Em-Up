@@ -13,6 +13,7 @@ Game::Game(Renderer &renderer) {
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/enemy.png"));
   enemy_bullet_texture =
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/alienBullet.png"));
+  
 
   Bullet bullet_forge(bullet_texture->GetTexture(), 0, 0);
   player = std::make_unique<Player>(player_texture->GetTexture(),
@@ -82,12 +83,11 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_count++;
     frame_duration = frame_end - frame_start;
 
-    if (player->GetHealth() == 0) {
+    if (player->GetHealth() <= 0) {
       reset_stage_timer--;
-      if (reset_stage_timer == 0)
+      if (reset_stage_timer <= 0)
         ResetStage();
     }
-
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
@@ -119,53 +119,55 @@ void Game::SpawnEnemy() {
   }
 }
 
-void Game::Update() {
-  // Update player
-  player->Update();
-
-  SpawnEnemy();
-
-  // Update bullets
+void Game::UpdateBullets() {
   for (auto bullet = begin(bullets); bullet != end(bullets);) {
     if (!*bullet) {
       bullet = bullets.erase(bullet);
     } else if ((*bullet)->GetHealth() == 0) {
-      std::cout << "Remove no health bullet" << std::endl;
       bullet = bullets.erase(bullet);
-      std::cout << "Bullet removed" << std::endl;
     } else {
       (*bullet)->Update();
       bullet++;
     }
   }
+}
 
-  // Update enemies
+void Game::UpdateEnemies() {
   for (auto enemy = begin(enemies); enemy != end(enemies);) {
     if (!*enemy) {
       enemy = enemies.erase(enemy);
     } else if ((*enemy)->GetHealth() == 0) {
-      std::cout << "Remove no health bullet" << std::endl;
+      std::cout << "Remove no health enemy" << std::endl;
       enemy = enemies.erase(enemy);
-      std::cout << "Bullet removed" << std::endl;
+      std::cout << "Enemy removed" << std::endl;
     } else {
       (*enemy)->Update();
       enemy++;
     }
   }
+}
 
-  // Update enemies bullets
+void Game::UpdateEnemiesBullets() {
   for (auto bullet = begin(enemies_bullets); bullet != end(enemies_bullets);) {
     if (!*bullet) {
       bullet = enemies_bullets.erase(bullet);
     } else if ((*bullet)->GetHealth() == 0) {
-      std::cout << "Remove no health bullet" << std::endl;
       bullet = enemies_bullets.erase(bullet);
-      std::cout << "Bullet removed" << std::endl;
     } else {
       (*bullet)->Update();
       bullet++;
     }
   }
+}
+
+void Game::Update() {
+  // Update player
+  player->Update();
+
+  SpawnEnemy();
+  UpdateBullets();
+  UpdateEnemies();
+  UpdateEnemiesBullets();
 
   CheckCollision();
 }

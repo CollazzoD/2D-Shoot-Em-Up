@@ -44,6 +44,9 @@ private:
   int reset_stage_timer{RESET_STAGE_TIMER};
   
   void Update();
+  void UpdateBullets();
+  void UpdateEnemies();
+  void UpdateEnemiesBullets();
   void SpawnEnemy();
   void CheckCollision();
   bool Collision(const Entity* e1, const Entity* e2);
