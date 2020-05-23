@@ -40,21 +40,21 @@ void Game::ResetStage() {
 
 void Game::RenderGameEntities(Renderer &renderer) {
   if (player->GetHealth() == 1)
-    renderer.RenderTexture(player.get());
+    renderer.Render(player.get());
 
   for (auto const &bullet : bullets)
     if (bullet->GetHealth() == 1)
-      renderer.RenderTexture(bullet.get());
+      renderer.Render(bullet.get());
 
   for (auto const &enemy : enemies)
     if (enemy->GetHealth() == 1)
-      renderer.RenderTexture(enemy.get());
+      renderer.Render(enemy.get());
 
   for (auto const &bullet : enemies_bullets)
     if (bullet->GetHealth() == 1)
-      renderer.RenderTexture(bullet.get());
+      renderer.Render(bullet.get());
 
-  renderer.RenderStars(game_stars);
+  renderer.Render(game_stars);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,

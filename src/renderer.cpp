@@ -114,7 +114,7 @@ SDL_Texture *Renderer::LoadTexture(const std::string &filename) const {
   return newTexture;
 }
 
-void Renderer::RenderTexture(const Entity *entity) {
+void Renderer::Render(const Entity *entity) {
   SDL_Rect dest;
   dest.x = entity->GetX();
   dest.y = entity->GetY();
@@ -166,7 +166,7 @@ void Renderer::DrawText(const int &x, const int &y, const int &r, const int &g,
   }
 }
 
-void Renderer::RenderStars(const Stars &stars) {
+void Renderer::Render(const Stars &stars) {
   int c;
 
   for (const auto &star : stars.stars) {

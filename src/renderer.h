@@ -23,9 +23,9 @@ public:
   void PrepareScene();
   void PresentScene();
   void UpdateWindowTitle(const int &fps);
-  void RenderTexture(const Entity *entity);
+  void Render(const Entity *entity);
   void RenderBackground();
-  void RenderStars(const Stars &stars);
+  void Render(const Stars &stars);
   void DrawHud(const int &score);
   SDL_Texture *LoadTexture(const std::string &filename) const;
 
