@@ -35,6 +35,7 @@ void Game::ResetStage() {
   player->Init();
   enemy_spawn_timer = ENEMY_SPAWN_TIMER;
   reset_stage_timer = RESET_STAGE_TIMER;
+  score = 0;
 }
 
 void Game::RenderGameEntities(Renderer &renderer) {
@@ -74,6 +75,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     Update();
     RenderGameEntities(renderer);
+    renderer.DrawHud(score);
 
     renderer.PresentScene();
 
@@ -191,6 +193,7 @@ void Game::CheckCollision() {
       if (Collision(enemy.get(), bullet.get())) {
         enemy->Hit();
         bullet->Hit();
+        score += ENEMY_DESTROYED_SCORE;
       }
 
   // Enemies bullet's Player collision

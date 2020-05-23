@@ -22,4 +22,9 @@ constexpr int ALIEN_BULLET_SPEED{8};
 
 constexpr int BULLET_SPEED{16};
 
+constexpr int GLYPH_HEIGHT{28};
+constexpr int GLYPH_WIDTH{18};
+
+constexpr int ENEMY_DESTROYED_SCORE{100};
+
 #endif

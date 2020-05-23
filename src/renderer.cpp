@@ -39,6 +39,7 @@ Renderer::Renderer()
 
   background_texture =
       std::make_unique<Texture>(LoadTexture("../gfx/background.png"));
+  font_texture = std::make_unique<Texture>(LoadTexture("../gfx/font.png"));
 }
 
 Renderer::~Renderer() {
@@ -141,12 +142,49 @@ void Renderer::RenderBackground() {
   }
 }
 
+void Renderer::DrawHud(const int &score) {
+  DrawText(10, 10, 255, 255, 255, "SCORE: " + std::to_string(score));
+}
+
+void Renderer::DrawText(const int &x, const int &y, const int &r, const int &g,
+                        const int &b, const std::string &text) {
+  SDL_Rect rect;
+  rect.w = GLYPH_WIDTH;
+  rect.h = GLYPH_HEIGHT;
+  rect.y = 0;
+
+  SDL_SetTextureColorMod(font_texture->GetTexture(), r, g, b);
+
+  int x_text = x;
+  for (const char &c : text) {
+    if (c >= ' ' && c <= 'Z') {
+      rect.x = (c - ' ') * GLYPH_WIDTH;
+
+      BlitRect(font_texture->GetTexture(), &rect, x_text, y);
+
+      x_text += GLYPH_WIDTH;
+    }
+  }
+}
+
 void Renderer::RenderStars(const Stars &stars) {
   int c;
-	
-  for (const auto& star: stars.stars) {
+
+  for (const auto &star : stars.stars) {
     c = 32 * star.speed;
     SDL_SetRenderDrawColor(sdl_renderer, c, c, c, 255);
-		SDL_RenderDrawLine(sdl_renderer, star.x, star.y, star.x + 3, star.y);
+    SDL_RenderDrawLine(sdl_renderer, star.x, star.y, star.x + 3, star.y);
   }
+}
+
+void Renderer::BlitRect(SDL_Texture *texture, const SDL_Rect *src, const int &x, const int &y)
+{
+	SDL_Rect dest;
+	
+	dest.x = x;
+	dest.y = y;
+	dest.w = src->w;
+	dest.h = src->h;
+	
+	SDL_RenderCopy(sdl_renderer, texture, src, &dest);
 }

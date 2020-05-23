@@ -43,6 +43,7 @@ private:
   
   int enemy_spawn_timer{ENEMY_SPAWN_TIMER};
   int reset_stage_timer{RESET_STAGE_TIMER};
+  int score{0};
   
   void Update();
   void UpdateBullets();
