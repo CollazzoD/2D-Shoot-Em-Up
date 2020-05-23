@@ -2,10 +2,8 @@
 #define BULLET_H
 
 #include "entity.h"
-#include "renderer.h"
+#include "constants.h"
 #include <iostream>
-
-constexpr int BULLET_SPEED{16};
 
 class Bullet : public Entity {
 public:

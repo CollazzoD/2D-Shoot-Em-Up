@@ -5,8 +5,6 @@
 #include <random>
 #include <vector>
 
-
-
 class Stars {
 public:
   struct Star {

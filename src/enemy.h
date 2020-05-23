@@ -2,18 +2,14 @@
 #define ENEMY_H
 
 #include "entity.h"
-#include "renderer.h"
 #include "player.h"
 #include "alienBullet.h"
+#include "constants.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <list>
 #include <memory>
 #include <random>
-
-constexpr int ENEMY_RELOAD{64};
-constexpr int ENEMY_MAX_SPEED{6};
-constexpr int ENEMY_MIN_SPEED{2};
 
 class Enemy : public Entity {
 public:

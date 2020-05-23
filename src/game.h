@@ -15,8 +15,6 @@
 #include <memory>
 #include <list>
 
-
-
 class Game {
 public:
   Game(Renderer &renderer);

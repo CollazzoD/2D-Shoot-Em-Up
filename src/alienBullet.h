@@ -2,10 +2,8 @@
 #define ALIEN_BULLET_H
 
 #include "entity.h"
-#include "renderer.h"
+#include "constants.h"
 #include <iostream>
-
-constexpr int ALIEN_BULLET_SPEED{8};
 
 class AlienBullet : public Entity {
 public:
