@@ -140,3 +140,13 @@ void Renderer::RenderBackground() {
     SDL_RenderCopy(sdl_renderer, background_texture->GetTexture(), NULL, &dest);
   }
 }
+
+void Renderer::RenderStars(const Stars &stars) {
+  int c;
+	
+  for (const auto& star: stars.stars) {
+    c = 32 * star.speed;
+    SDL_SetRenderDrawColor(sdl_renderer, c, c, c, 255);
+		SDL_RenderDrawLine(sdl_renderer, star.x, star.y, star.x + 3, star.y);
+  }
+}

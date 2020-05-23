@@ -4,14 +4,11 @@
 #include "bullet.h"
 #include "entity.h"
 #include "renderer.h"
+#include "constants.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <list>
 #include <memory>
-
-constexpr int PLAYER_SPEED{4};
-constexpr int PLAYER_INITIAL_X{100};
-constexpr int PLAYER_INITIAL_Y{330};
 
 class Player : public Entity {
 public:

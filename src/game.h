@@ -9,12 +9,13 @@
 #include "enemy.h"
 #include "alienBullet.h"
 #include "texture.h"
+#include "star.h"
+#include "constants.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <list>
 
-constexpr int ENEMY_SPAWN_TIMER = 120;
-constexpr int RESET_STAGE_TIMER = 300;
+
 
 class Game {
 public:
@@ -39,6 +40,8 @@ private:
   std::list<std::unique_ptr<Bullet>> bullets;
   std::list<std::unique_ptr<Enemy>> enemies;
   std::list<std::unique_ptr<AlienBullet>> enemies_bullets;
+
+  Stars game_stars;
   
   int enemy_spawn_timer{ENEMY_SPAWN_TIMER};
   int reset_stage_timer{RESET_STAGE_TIMER};

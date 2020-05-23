@@ -13,7 +13,6 @@ Game::Game(Renderer &renderer) {
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/enemy.png"));
   enemy_bullet_texture =
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/alienBullet.png"));
-  
 
   Bullet bullet_forge(bullet_texture->GetTexture(), 0, 0);
   player = std::make_unique<Player>(player_texture->GetTexture(),
@@ -53,6 +52,8 @@ void Game::RenderGameEntities(Renderer &renderer) {
   for (auto const &bullet : enemies_bullets)
     if (bullet->GetHealth() == 1)
       renderer.RenderTexture(bullet.get());
+
+  renderer.RenderStars(game_stars);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -137,9 +138,7 @@ void Game::UpdateEnemies() {
     if (!*enemy) {
       enemy = enemies.erase(enemy);
     } else if ((*enemy)->GetHealth() == 0) {
-      std::cout << "Remove no health enemy" << std::endl;
       enemy = enemies.erase(enemy);
-      std::cout << "Enemy removed" << std::endl;
     } else {
       (*enemy)->Update();
       enemy++;
@@ -168,6 +167,7 @@ void Game::Update() {
   UpdateBullets();
   UpdateEnemies();
   UpdateEnemiesBullets();
+  game_stars.Update();
 
   CheckCollision();
 }

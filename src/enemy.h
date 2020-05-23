@@ -20,7 +20,7 @@ public:
   Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
         AlienBullet bullet_forge,
         std::list<std::unique_ptr<AlienBullet>> &enemy_bullets, const Player* player);
-  ~Enemy() { std::cout << "Enemy destroyed " << std::endl;};
+  ~Enemy() = default;
   Enemy(const Enemy &source) = delete;
   Enemy &operator=(const Enemy &source) = delete;
   Enemy(Enemy &&source) = default;

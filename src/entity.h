@@ -24,8 +24,8 @@ public:
   virtual void Update() = 0;
   void Hit();
 protected:
-  int x;
-  int y;
+  float x;
+  float y;
   float dx;
   float dy;
   int speed;

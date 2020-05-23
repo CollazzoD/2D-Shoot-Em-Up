@@ -3,13 +3,12 @@
 
 #include "entity.h"
 #include "texture.h"
+#include "constants.h"
+#include "star.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <memory>
-
-constexpr int kScreenWidth{1280};
-constexpr int kScreenHeight{720};
 
 class Renderer {
 public:
@@ -26,6 +25,7 @@ public:
   void UpdateWindowTitle(const int &x, const int &y, const int &fps);
   void RenderTexture(const Entity *entity);
   void RenderBackground();
+  void RenderStars(const Stars &stars);
   SDL_Texture *LoadTexture(const std::string &filename) const;
 
 private:
