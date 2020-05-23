@@ -1,10 +1,10 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "entity.h"
-#include "player.h"
 #include "alienBullet.h"
 #include "constants.h"
+#include "entity.h"
+#include "player.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <list>
@@ -13,9 +13,10 @@
 
 class Enemy : public Entity {
 public:
-  Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
-        AlienBullet bullet_forge,
-        std::list<std::unique_ptr<AlienBullet>> &enemy_bullets, const Player* player);
+  Enemy(Texture *texture, const float &x, const float &y, const int &speed,
+        Texture *bullet_texture,
+        std::list<std::unique_ptr<AlienBullet>> &enemy_bullets,
+        const Player *player);
   ~Enemy() = default;
   Enemy(const Enemy &source) = delete;
   Enemy &operator=(const Enemy &source) = delete;
@@ -23,18 +24,18 @@ public:
   Enemy &operator=(Enemy &&source) = default;
 
   void Update() override;
-  void TargetPosition(Entity* e);
+  void TargetPosition(Entity *e);
 
 private:
   void CheckPosition();
   void Fire();
   void CalcSlope(float &dx, float &dy);
 
-  int bullet_dx;
-  int bullet_dy;
-  const Player* player;
+  float bullet_dx;
+  float bullet_dy;
+  const Player *player;
 
-  AlienBullet bullet_forge; // used to create other bullets
+  Texture *bullet_texture; // used to create other bullets
   std::list<std::unique_ptr<AlienBullet>> &enemy_bullets;
   int reload;
 };

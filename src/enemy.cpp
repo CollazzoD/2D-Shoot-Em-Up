@@ -1,11 +1,11 @@
 #include "enemy.h"
 #include <iostream>
 
-Enemy::Enemy(SDL_Texture *texture, const int &x, const int &y, const int &speed,
-             AlienBullet bullet_forge,
+Enemy::Enemy(Texture *texture, const float &x, const float &y, const int &speed,
+             Texture *bullet_texture,
              std::list<std::unique_ptr<AlienBullet>> &enemy_bullets,
              const Player *player)
-    : Entity(texture, x, y, speed), bullet_forge(std::move(bullet_forge)),
+    : Entity(texture, x, y, speed), bullet_texture(bullet_texture),
       enemy_bullets(enemy_bullets), reload(ENEMY_RELOAD), player(player) {
   dx = -speed;
 }
@@ -30,11 +30,9 @@ void Enemy::Fire() {
 
   // I shoot the player only if he's alive and not behind me
   if ((player->GetHealth() > 0) && (dx < 0)) {
-    auto bullet = std::make_unique<AlienBullet>(bullet_forge);
-    bullet->SetX(this->x);
-    bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
-    bullet->SetDx(dx);
-    bullet->SetDy(dy);
+    float bullet_x = x;
+    float bullet_y = y + (height / 2) + (bullet_texture->GetTextureHeight() / 2);
+    auto bullet = std::make_unique<AlienBullet>(bullet_texture, bullet_x, bullet_y, dx, dy);
     enemy_bullets.push_front(std::move(bullet));
   }
   reload = ENEMY_RELOAD;

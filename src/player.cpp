@@ -2,10 +2,10 @@
 #include <iostream>
 
 // Renderer is needed in order to load the texture
-Player::Player(SDL_Texture *texture, Bullet bullet_forge,
+Player::Player(Texture *texture, Texture *bullet_texture,
                std::list<std::unique_ptr<Bullet>> &bullets)
     : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
-      bullet_forge(std::move(bullet_forge)), bullets(bullets), reload(0) {}
+      bullet_texture(bullet_texture), bullets(bullets), reload(0) {}
 
 void Player::Init() {
   x = PLAYER_INITIAL_X;
@@ -17,10 +17,11 @@ void Player::Init() {
 
 void Player::Update() {
 
-  dx = dy = 0;
-
   if (reload > 0)
     reload--;
+
+  dx = dy = 0;
+
   switch (direction) {
   case Direction::kUp:
     dy = -speed;
@@ -44,6 +45,7 @@ void Player::Update() {
 
   x += dx;
   y += dy;
+  
   CheckPosition();
 
   if (fire && (reload == 0))
@@ -56,9 +58,10 @@ void Player::StopFire() { fire = false; }
 
 void Player::FireBullet() {
   if (health > 0) {
-    auto bullet = std::make_unique<Bullet>(bullet_forge);
-    bullet->SetX(this->x);
-    bullet->SetY(this->y + (this->height / 2) - (bullet->GetHeight() / 2));
+    float bullet_x = x;
+    float bullet_y =
+        y + (height / 2) - (bullet_texture->GetTextureHeight() / 2);
+    auto bullet = std::make_unique<Bullet>(bullet_texture, bullet_x, bullet_y);
     bullets.push_front(std::move(bullet));
     reload = 8;
   }

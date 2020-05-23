@@ -120,7 +120,7 @@ void Renderer::Render(const Entity *entity) {
   dest.y = entity->GetY();
   dest.w = entity->GetWidth();
   dest.h = entity->GetHeight();
-  SDL_RenderCopy(sdl_renderer, entity->GetTexture(), NULL, &dest);
+  SDL_RenderCopy(sdl_renderer, entity->GetTexture()->GetTexture(), NULL, &dest);
 }
 
 void Renderer::UpdateBackground() {

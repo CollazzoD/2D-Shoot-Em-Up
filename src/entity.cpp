@@ -1,16 +1,22 @@
 #include "entity.h"
 #include <iostream>
 
-Entity::Entity(SDL_Texture *texture, const int &x, const int &y,
+Entity::Entity(Texture *texture, const float &x, const float &y,
                const int &speed)
-    : texture(texture), x(x), y(y), speed(speed), dx(0), dy(0), health(1) {
-  SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    : texture(texture), x(x), y(y), speed(speed), dx(0), dy(0), health(1), width(0), height(0) {
+  if (texture != nullptr) {
+    width = texture->GetTextureWidth();
+    height = texture->GetTextureHeight();
+  }
 };
 
-Entity::Entity(SDL_Texture *texture, const int &x, const int &y,
+Entity::Entity(Texture *texture, const float &x, const float &y,
                const int &speed, const float &dx, const float &dy)
-    : texture(texture), x(x), y(y), speed(speed), dx(dx), dy(dy), health(1) {
-  SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    : texture(texture), x(x), y(y), speed(speed), dx(dx), dy(dy), health(1), width(0), height(0) {
+  if (texture != nullptr) {
+    width = texture->GetTextureWidth();
+    height = texture->GetTextureHeight();
+  }
 };
 
 Entity::~Entity() {}

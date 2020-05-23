@@ -12,7 +12,7 @@
 
 class Player : public Entity {
 public:
-  Player(SDL_Texture *texture, Bullet bullet_forge,
+  Player(Texture *texture, Texture *bullet_texture,
          std::list<std::unique_ptr<Bullet>> &bullets);
   ~Player() = default;
   Player(const Player &source) = delete;
@@ -32,7 +32,7 @@ private:
   void CheckPosition();
   void FireBullet();
 
-  Bullet bullet_forge; // used to create other bullets
+  Texture *bullet_texture; // used to create other bullets
   std::list<std::unique_ptr<Bullet>> &bullets;
   bool fire{false};
   int reload;

@@ -1,7 +1,7 @@
 #include "bullet.h"
 #include <iostream>
 
-Bullet::Bullet(SDL_Texture *texture, int x, int y)
+Bullet::Bullet(Texture *texture, float x, float y)
     : Entity(texture, x, y, BULLET_SPEED) {
   dx = BULLET_SPEED;
   dy = 0;
