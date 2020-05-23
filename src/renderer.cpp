@@ -123,6 +123,22 @@ void Renderer::Render(const Entity *entity) {
   SDL_RenderCopy(sdl_renderer, entity->GetTexture()->GetTexture(), NULL, &dest);
 }
 
+void Renderer::Render(const std::list<std::unique_ptr<Explosion>> &explosions) {
+  if (!explosions.empty()) {
+    SDL_SetRenderDrawBlendMode(sdl_renderer, SDL_BLENDMODE_ADD);
+    SDL_SetTextureBlendMode(begin(explosions)->get()->GetTexture()->GetTexture(),
+                            SDL_BLENDMODE_ADD);
+
+    for (const auto & explosion : explosions) {
+      SDL_SetTextureColorMod(explosion->GetTexture()->GetTexture(), explosion->r, explosion->g, explosion->b);
+      SDL_SetTextureAlphaMod(explosion->GetTexture()->GetTexture(), explosion->a);
+      Render(explosion.get());
+    }
+
+    SDL_SetRenderDrawBlendMode(sdl_renderer, SDL_BLENDMODE_NONE);
+  }
+}
+
 void Renderer::UpdateBackground() {
   backgroundX--;
   if (backgroundX < -kScreenWidth)

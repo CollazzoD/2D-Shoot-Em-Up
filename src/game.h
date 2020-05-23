@@ -11,6 +11,7 @@
 #include "texture.h"
 #include "star.h"
 #include "constants.h"
+#include "explosion.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <list>
@@ -27,17 +28,23 @@ private:
   std::mt19937 engine;
   std::uniform_int_distribution<int> enemy_random_pos;
   std::uniform_int_distribution<int> enemy_random_speed;
+  std::uniform_int_distribution<int> zero_to_4;
+  std::uniform_int_distribution<int> zero_to_10;
+  std::uniform_int_distribution<int> zero_to_32;
+  std::uniform_int_distribution<int> zero_to_fps;
 
   // I create the textures only once, so as to refer to the same texture
   std::unique_ptr<Texture> player_texture;
   std::unique_ptr<Texture> bullet_texture;
   std::unique_ptr<Texture> enemy_texture;
   std::unique_ptr<Texture> enemy_bullet_texture;
+  std::unique_ptr<Texture> explosion_texture;
 
   std::unique_ptr<Player> player;
   std::list<std::unique_ptr<Bullet>> bullets;
   std::list<std::unique_ptr<Enemy>> enemies;
   std::list<std::unique_ptr<AlienBullet>> enemies_bullets;
+  std::list<std::unique_ptr<Explosion>> explosions;
 
   Stars game_stars;
   
@@ -49,11 +56,13 @@ private:
   void UpdateBullets();
   void UpdateEnemies();
   void UpdateEnemiesBullets();
+  void UpdateExplosions();
   void SpawnEnemy();
   void CheckCollision();
   bool Collision(const Entity* e1, const Entity* e2);
   void ResetStage();
   void RenderGameEntities(Renderer &renderer);
+  void AddExplosions(const int &x, const int &y, const int &num);
 };
 
 #endif

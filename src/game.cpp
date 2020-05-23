@@ -13,9 +13,11 @@ Game::Game(Renderer &renderer) {
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/enemy.png"));
   enemy_bullet_texture =
       std::make_unique<Texture>(renderer.LoadTexture("../gfx/alienBullet.png"));
+  explosion_texture =
+      std::make_unique<Texture>(renderer.LoadTexture("../gfx/explosion.png"));
 
-  player = std::make_unique<Player>(player_texture.get(),
-                                    bullet_texture.get(), bullets);
+  player = std::make_unique<Player>(player_texture.get(), bullet_texture.get(),
+                                    bullets);
 
   engine = std::mt19937(dev());
   enemy_random_speed =
@@ -23,6 +25,11 @@ Game::Game(Renderer &renderer) {
 
   int enemy_max_pos = kScreenHeight - enemy_texture->GetTextureHeight();
   enemy_random_pos = std::uniform_int_distribution<int>(0, enemy_max_pos);
+
+  zero_to_4 = std::uniform_int_distribution<int>(0, 4);
+  zero_to_10 = std::uniform_int_distribution<int>(0, 10);
+  zero_to_32 = std::uniform_int_distribution<int>(0, 32);
+  zero_to_fps = std::uniform_int_distribution<int>(0, kFramesPerSecond);
 }
 
 Game::~Game() {}
@@ -31,6 +38,7 @@ void Game::ResetStage() {
   bullets.erase(begin(bullets), end(bullets));
   enemies.erase(begin(enemies), end(enemies));
   enemies_bullets.erase(begin(enemies_bullets), end(enemies_bullets));
+  explosions.erase(begin(explosions), end(explosions));
   player->Init();
   enemy_spawn_timer = ENEMY_SPAWN_TIMER;
   reset_stage_timer = RESET_STAGE_TIMER;
@@ -53,6 +61,7 @@ void Game::RenderGameEntities(Renderer &renderer) {
     if (bullet->GetHealth() == 1)
       renderer.Render(bullet.get());
 
+  renderer.Render(explosions);
   renderer.Render(game_stars);
 }
 
@@ -112,8 +121,8 @@ void Game::SpawnEnemy() {
   if (enemy_spawn_timer <= 0) {
     auto enemy = std::make_unique<Enemy>(
         enemy_texture.get(), kScreenWidth, enemy_random_pos(engine),
-        enemy_random_speed(engine), enemy_bullet_texture.get(),
-        enemies_bullets, player.get());
+        enemy_random_speed(engine), enemy_bullet_texture.get(), enemies_bullets,
+        player.get());
     enemies.push_front(std::move(enemy));
     enemy_spawn_timer = ENEMY_SPAWN_TIMER;
   }
@@ -158,6 +167,19 @@ void Game::UpdateEnemiesBullets() {
   }
 }
 
+void Game::UpdateExplosions() {
+  for (auto explosion = begin(explosions); explosion != end(explosions);) {
+    if (!*explosion) {
+      explosion = explosions.erase(explosion);
+    } else if ((*explosion)->GetHealth() == 0) {
+      explosion = explosions.erase(explosion);
+    } else {
+      (*explosion)->Update();
+      explosion++;
+    }
+  }
+}
+
 void Game::Update() {
   // Update player
   player->Update();
@@ -166,6 +188,7 @@ void Game::Update() {
   UpdateBullets();
   UpdateEnemies();
   UpdateEnemiesBullets();
+  UpdateExplosions();
   game_stars.Update();
 
   CheckCollision();
@@ -191,6 +214,7 @@ void Game::CheckCollision() {
         enemy->Hit();
         bullet->Hit();
         score += ENEMY_DESTROYED_SCORE;
+        AddExplosions(enemy->GetX(), enemy->GetY(), 32);
       }
 
   // Enemies bullet's Player collision
@@ -199,4 +223,46 @@ void Game::CheckCollision() {
       player->Hit();
       bullet->Hit();
     }
+}
+
+void Game::AddExplosions(const int &x, const int &y, const int &num) {
+  for (int i = 0; i < num; i++) {
+    float exp_x = x + zero_to_32(engine) - zero_to_32(engine);
+    float exp_y = y + zero_to_32(engine) - zero_to_32(engine);
+    float dx = zero_to_10(engine) - zero_to_10(engine);
+    float dy = zero_to_10(engine) - zero_to_10(engine);
+    int r, g, b, a;
+    r = g = b = a = 0;
+
+    dx /= 10;
+    dy /= 10;
+
+    switch (zero_to_4(engine)) {
+    case 0:
+      r = 255;
+      break;
+
+    case 1:
+      r = 255;
+      g = 128;
+      break;
+
+    case 2:
+      r = 255;
+      g = 255;
+      break;
+
+    default:
+      r = 255;
+      g = 255;
+      b = 255;
+      break;
+    }
+
+    a = zero_to_fps(engine) * 3;
+
+    auto explosion = std::make_unique<Explosion>(explosion_texture.get(), exp_x,
+                                                 exp_y, dx, dy, r, g, b, a);
+    explosions.push_front(std::move(explosion));
+  }
 }
