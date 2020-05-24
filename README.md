@@ -28,5 +28,5 @@ This is the repo for the Capstone project in the [Udacity C++ Nanodegree Program
 4. Run it: `./2D-Shoot-Em-Up`.
 
 ## Commands
-* Arrows : move Spaceship
-* Spacebar : Fire
+* <kbd>Arrows</kbd> : move Spaceship
+* <kbd>Space</kbd> : Fire
