@@ -66,7 +66,9 @@ void Game::RenderGameEntities(Renderer &renderer) {
     if (debris->GetHealth() > 0)
       renderer.Render(debris.get());
 
-  renderer.Render(explosions);
+  for (auto const &explosion : explosions)
+    renderer.Render(dynamic_cast<Explosion *>(explosion.get()));
+  
   renderer.Render(game_stars);
 }
 
@@ -134,19 +136,6 @@ void Game::SpawnEnemy() {
 }
 
 void Game::UpdateEntities(std::list<std::unique_ptr<Entity>> &list) {
-  for (auto element = begin(list); element != end(list);) {
-    if (!*element) {
-      element = list.erase(element);
-    } else if ((*element)->GetHealth() == 0) {
-      element = list.erase(element);
-    } else {
-      (*element)->Update();
-      element++;
-    }
-  }
-}
-
-void Game::UpdateEntities(std::list<std::unique_ptr<Explosion>> &list) {
   for (auto element = begin(list); element != end(list);) {
     if (!*element) {
       element = list.erase(element);

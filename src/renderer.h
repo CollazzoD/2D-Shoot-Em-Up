@@ -6,6 +6,7 @@
 #include "star.h"
 #include "texture.h"
 #include "explosion.h"
+#include "debris.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <memory>
@@ -26,8 +27,9 @@ public:
   void PresentScene();
   void UpdateWindowTitle(const int &fps);
   void Render(const Entity *entity);
+  void Render(const Debris *debris);
+  void Render(const Explosion *explosion);
   void Render(const Stars &stars);
-  void Render(const std::list<std::unique_ptr<Explosion>> &explosions);
   void RenderBackground();
   void DrawHud(const int &score);
   SDL_Texture *LoadTexture(const std::string &filename) const;

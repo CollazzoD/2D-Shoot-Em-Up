@@ -45,7 +45,7 @@ private:
   std::list<std::unique_ptr<Entity>> bullets;
   std::list<std::unique_ptr<Entity>> enemies;
   std::list<std::unique_ptr<Entity>> enemies_bullets;
-  std::list<std::unique_ptr<Explosion>> explosions;
+  std::list<std::unique_ptr<Entity>> explosions;
   std::list<std::unique_ptr<Entity>> space_debris;
 
   Stars game_stars;
@@ -56,8 +56,6 @@ private:
   
   void Update();
   void UpdateEntities(std::list<std::unique_ptr<Entity>> &list);
-  void UpdateEntities(std::list<std::unique_ptr<Explosion>> &list);
-
   void SpawnEnemy();
   void CheckCollision();
   bool Collision(const Entity* e1, const Entity* e2);
