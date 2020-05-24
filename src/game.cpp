@@ -96,6 +96,12 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     RenderGameEntities(renderer);
     renderer.DrawHud(score, highscore);
 
+    if (player->GetHealth() <= 0) {
+      reset_stage_timer--;
+      if (reset_stage_timer <= 0)
+        ResetStage();
+    }
+
     renderer.PresentScene();
 
     frame_end = SDL_GetTicks();
@@ -104,12 +110,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // takes.
     frame_count++;
     frame_duration = frame_end - frame_start;
-
-    if (player->GetHealth() <= 0) {
-      reset_stage_timer--;
-      if (reset_stage_timer <= 0)
-        ResetStage();
-    }
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {

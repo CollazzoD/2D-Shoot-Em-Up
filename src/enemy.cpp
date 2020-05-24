@@ -28,9 +28,9 @@ void Enemy::Fire() {
 
   // I shoot the player only if he's alive and not behind me
   if ((player->GetHealth() > 0) && (dx < 0)) {
-    float bullet_x = x;
+    float bullet_x = x + (width / 2) - (bullet_texture->GetTextureWidth() / 2);
     float bullet_y =
-        y + (height / 2) + (bullet_texture->GetTextureHeight() / 2);
+        y + (height / 2) - (bullet_texture->GetTextureHeight() / 2);
     auto bullet = std::make_unique<AlienBullet>(bullet_texture, bullet_x,
                                                 bullet_y, dx, dy);
     enemy_bullets.push_front(std::move(bullet));
