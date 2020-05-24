@@ -24,7 +24,6 @@ public:
   Enemy &operator=(Enemy &&source) = default;
 
   void Update() override;
-  void TargetPosition(Entity *e);
 
 private:
   void CheckPosition();

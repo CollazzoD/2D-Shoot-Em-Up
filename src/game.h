@@ -24,6 +24,8 @@ public:
            std::size_t target_frame_duration);
 
 private:
+
+  // Random Generation for game features
   std::random_device dev;
   std::mt19937 engine;
   std::uniform_int_distribution<int> enemy_random_pos;
@@ -42,6 +44,7 @@ private:
   std::unique_ptr<Texture> enemy_bullet_texture;
   std::unique_ptr<Texture> explosion_texture;
 
+  // Game Entities
   std::unique_ptr<Player> player;
   std::list<std::unique_ptr<Entity>> bullets;
   std::list<std::unique_ptr<Entity>> enemies;

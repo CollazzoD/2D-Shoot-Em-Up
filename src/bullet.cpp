@@ -1,7 +1,7 @@
 #include "bullet.h"
 #include <iostream>
 
-Bullet::Bullet(Texture *texture, float x, float y)
+Bullet::Bullet(Texture *texture, const float &x, const float &y)
     : Entity(texture, x, y, BULLET_SPEED, BULLET_SPEED) {}
 
 void Bullet::Update() {

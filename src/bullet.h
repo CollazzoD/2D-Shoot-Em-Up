@@ -8,7 +8,7 @@
 
 class Bullet : public Entity {
 public:
-  Bullet(Texture *texture, float x, float y);
+  Bullet(Texture *texture, const float &x, const float &y);
   ~Bullet() = default;
   Bullet(const Bullet &source) = default;
   Bullet &operator=(const Bullet &source) = default;
