@@ -8,7 +8,8 @@
 class Entity {
 public:
   Entity(Texture *texture, const float &x = 0, const float &y = 0,
-         const int &speed = 0, const float &dx = 0, const float &dy = 0, const int &health = 1);
+         const int &speed = 0, const float &dx = 0, const float &dy = 0,
+         const int &health = 1);
   ~Entity();
   Entity(const Entity &source) = default;
   Entity &operator=(const Entity &source) = default;

@@ -1,21 +1,20 @@
 #ifndef GAME_H
 #define GAME_H
 
-
-#include "controller.h"
-#include "renderer.h"
-#include "player.h"
-#include "bullet.h"
-#include "enemy.h"
 #include "alienBullet.h"
-#include "texture.h"
-#include "star.h"
+#include "bullet.h"
 #include "constants.h"
-#include "explosion.h"
+#include "controller.h"
 #include "debris.h"
+#include "enemy.h"
+#include "explosion.h"
+#include "player.h"
+#include "renderer.h"
+#include "star.h"
+#include "texture.h"
 #include <SDL2/SDL.h>
-#include <memory>
 #include <list>
+#include <memory>
 
 class Game {
 public:
@@ -30,7 +29,9 @@ private:
   std::uniform_int_distribution<int> enemy_random_pos;
   std::uniform_int_distribution<int> enemy_random_speed;
   std::uniform_int_distribution<int> zero_to_4;
+  std::uniform_int_distribution<int> zero_to_5;
   std::uniform_int_distribution<int> zero_to_10;
+  std::uniform_int_distribution<int> zero_to_12;
   std::uniform_int_distribution<int> zero_to_32;
   std::uniform_int_distribution<int> zero_to_fps;
 
@@ -49,19 +50,20 @@ private:
   std::list<std::unique_ptr<Entity>> space_debris;
 
   Stars game_stars;
-  
+
   int enemy_spawn_timer{ENEMY_SPAWN_TIMER};
   int reset_stage_timer{RESET_STAGE_TIMER};
   int score{0};
-  
+
   void Update();
   void UpdateEntities(std::list<std::unique_ptr<Entity>> &list);
   void SpawnEnemy();
   void CheckCollision();
-  bool Collision(const Entity* e1, const Entity* e2);
+  bool Collision(const Entity *e1, const Entity *e2);
   void ResetStage();
   void RenderGameEntities(Renderer &renderer);
   void AddExplosions(const int &x, const int &y, const int &num);
+  void AddDebris(const Entity *e);
 };
 
 #endif

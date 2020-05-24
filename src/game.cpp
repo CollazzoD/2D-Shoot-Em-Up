@@ -27,7 +27,9 @@ Game::Game(Renderer &renderer) {
   enemy_random_pos = std::uniform_int_distribution<int>(0, enemy_max_pos);
 
   zero_to_4 = std::uniform_int_distribution<int>(0, 4);
+  zero_to_5 = std::uniform_int_distribution<int>(0, 5);
   zero_to_10 = std::uniform_int_distribution<int>(0, 10);
+  zero_to_12 = std::uniform_int_distribution<int>(0, 12);
   zero_to_32 = std::uniform_int_distribution<int>(0, 32);
   zero_to_fps = std::uniform_int_distribution<int>(0, kFramesPerSecond);
 }
@@ -64,11 +66,11 @@ void Game::RenderGameEntities(Renderer &renderer) {
 
   for (auto const &debris : space_debris)
     if (debris->GetHealth() > 0)
-      renderer.Render(debris.get());
+      renderer.Render(dynamic_cast<Debris *>(debris.get()));
 
   for (auto const &explosion : explosions)
     renderer.Render(dynamic_cast<Explosion *>(explosion.get()));
-  
+
   renderer.Render(game_stars);
 }
 
@@ -139,7 +141,7 @@ void Game::UpdateEntities(std::list<std::unique_ptr<Entity>> &list) {
   for (auto element = begin(list); element != end(list);) {
     if (!*element) {
       element = list.erase(element);
-    } else if ((*element)->GetHealth() == 0) {
+    } else if ((*element)->GetHealth() <= 0) {
       element = list.erase(element);
     } else {
       (*element)->Update();
@@ -184,6 +186,7 @@ void Game::CheckCollision() {
         bullet->Hit();
         score += ENEMY_DESTROYED_SCORE;
         AddExplosions(enemy->GetX(), enemy->GetY(), 32);
+        AddDebris(enemy.get());
       }
 
   // Enemies bullet's Player collision
@@ -233,5 +236,33 @@ void Game::AddExplosions(const int &x, const int &y, const int &num) {
     auto explosion = std::make_unique<Explosion>(explosion_texture.get(), exp_x,
                                                  exp_y, dx, dy, r, g, b, a);
     explosions.push_front(std::move(explosion));
+  }
+}
+
+void Game::AddDebris(const Entity *e) {
+  int x, y, w, h;
+  float debris_x, debris_y, debris_dx, debris_dy;
+  int debris_life;
+  SDL_Rect rect;
+  
+  w = e->GetWidth() / 2;
+  h = e->GetHeight() / 2;
+  for (y = 0; y <= h; y += h) {
+    for (x = 0; x <= w; x += w) {
+      debris_x = e->GetX() + e->GetWidth() / 2;
+      debris_y = e->GetY() + e->GetHeight() / 2;
+      debris_dx = zero_to_5(engine) - zero_to_5(engine);
+      debris_dy = -(5 + zero_to_12(engine));
+      debris_life = kFramesPerSecond * 2;
+
+      rect.x = x;
+      rect.y = y;
+      rect.w = w;
+      rect.h = h;
+
+      auto debris = std::make_unique<Debris>(
+          e->GetTexture(), debris_x, debris_y, debris_dx, debris_dy, debris_life, rect);
+      space_debris.push_front(std::move(debris));
+    }
   }
 }
