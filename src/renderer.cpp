@@ -130,8 +130,8 @@ void Renderer::Render(const Debris *debris) {
   dest.w = debris->GetWidth();
   dest.h = debris->GetHeight();
   source = debris->GetRect();
-  SDL_RenderCopy(sdl_renderer, debris->GetTexture()->GetTexture(),
-                 &source, &dest);
+  SDL_RenderCopy(sdl_renderer, debris->GetTexture()->GetTexture(), &source,
+                 &dest);
 }
 
 void Renderer::Render(const Explosion *explosion) {
@@ -141,7 +141,7 @@ void Renderer::Render(const Explosion *explosion) {
   SDL_SetTextureColorMod(explosion->GetTexture()->GetTexture(), explosion->r,
                          explosion->g, explosion->b);
   SDL_SetTextureAlphaMod(explosion->GetTexture()->GetTexture(), explosion->a);
-  Render(dynamic_cast<const Entity*>(explosion));
+  Render(dynamic_cast<const Entity *>(explosion));
   SDL_SetRenderDrawBlendMode(sdl_renderer, SDL_BLENDMODE_NONE);
 }
 
@@ -163,8 +163,13 @@ void Renderer::RenderBackground() {
   }
 }
 
-void Renderer::DrawHud(const int &score) {
+void Renderer::DrawHud(const int &score, const int &highscore) {
   DrawText(10, 10, 255, 255, 255, "SCORE: " + std::to_string(score));
+  if (score > highscore) {
+    DrawText(960, 10, 0, 255, 0, "HIGH SCORE: " + std::to_string(score));
+  } else {
+    DrawText(960, 10, 255, 255, 255, "HIGH SCORE: " + std::to_string(highscore));
+  }
 }
 
 void Renderer::DrawText(const int &x, const int &y, const int &r, const int &g,

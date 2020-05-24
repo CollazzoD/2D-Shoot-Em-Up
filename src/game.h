@@ -12,6 +12,7 @@
 #include "renderer.h"
 #include "star.h"
 #include "texture.h"
+#include "highscore.h"
 #include <SDL2/SDL.h>
 #include <list>
 #include <memory>
@@ -19,7 +20,6 @@
 class Game {
 public:
   Game(Renderer &renderer);
-  ~Game();
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
 
@@ -50,10 +50,12 @@ private:
   std::list<std::unique_ptr<Entity>> space_debris;
 
   Stars game_stars;
+  HighScore highscore_table;
 
   int enemy_spawn_timer{ENEMY_SPAWN_TIMER};
   int reset_stage_timer{RESET_STAGE_TIMER};
   int score{0};
+  int highscore{0};
 
   void Update();
   void UpdateEntities(std::list<std::unique_ptr<Entity>> &list);

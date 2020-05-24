@@ -32,9 +32,9 @@ Game::Game(Renderer &renderer) {
   zero_to_12 = std::uniform_int_distribution<int>(0, 12);
   zero_to_32 = std::uniform_int_distribution<int>(0, 32);
   zero_to_fps = std::uniform_int_distribution<int>(0, kFramesPerSecond);
-}
 
-Game::~Game() {}
+  ResetStage();
+}
 
 void Game::ResetStage() {
   bullets.erase(begin(bullets), end(bullets));
@@ -45,7 +45,9 @@ void Game::ResetStage() {
   player->Init();
   enemy_spawn_timer = ENEMY_SPAWN_TIMER;
   reset_stage_timer = RESET_STAGE_TIMER;
+  highscore_table.PushScore(score);
   score = 0;
+  highscore = highscore_table.GetHighScore();
 }
 
 void Game::RenderGameEntities(Renderer &renderer) {
@@ -92,7 +94,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     Update();
     RenderGameEntities(renderer);
-    renderer.DrawHud(score);
+    renderer.DrawHud(score, highscore);
 
     renderer.PresentScene();
 

@@ -31,7 +31,7 @@ public:
   void Render(const Explosion *explosion);
   void Render(const Stars &stars);
   void RenderBackground();
-  void DrawHud(const int &score);
+  void DrawHud(const int &score, const int &highscore);
   SDL_Texture *LoadTexture(const std::string &filename) const;
 
 private:
