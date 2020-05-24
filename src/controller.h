@@ -8,10 +8,13 @@
 */
 class Controller {
 public:
+  // Handles all the input
   void HandleInput(bool &running, Player *player) const;
 
 private:
+  // Handles the input when any key on the keyboard is released
   void doKeyUp(Player *player, const SDL_Keycode& key) const;
+  // Handles the input when any key on the keyboard is pressed
   void doKeyDown(Player *player, const SDL_Keycode& key) const;
 };
 

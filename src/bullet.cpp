@@ -2,10 +2,7 @@
 #include <iostream>
 
 Bullet::Bullet(Texture *texture, float x, float y)
-    : Entity(texture, x, y, BULLET_SPEED) {
-  dx = BULLET_SPEED;
-  dy = 0;
-}
+    : Entity(texture, x, y, BULLET_SPEED, BULLET_SPEED) {}
 
 void Bullet::Update() {
   if (health > 0) {

@@ -8,7 +8,6 @@
 
 class AlienBullet : public Entity {
 public:
-  AlienBullet(Texture *texture, const float &x, const float &y);
   AlienBullet(Texture *texture, const float &x, const float &y, const float &dx, const float &dy);
   ~AlienBullet() = default;
   AlienBullet(const AlienBullet &source) = default;

@@ -2,14 +2,17 @@
 #define PLAYER_H
 
 #include "bullet.h"
+#include "constants.h"
 #include "entity.h"
 #include "renderer.h"
-#include "constants.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <list>
 #include <memory>
 
+/*
+ * Class Player is the entity that manage all the player spaceship's information and actions
+ */
 class Player : public Entity {
 public:
   Player(Texture *texture, Texture *bullet_texture,

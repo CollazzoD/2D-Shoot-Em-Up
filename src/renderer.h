@@ -2,22 +2,21 @@
 #define RENDERER_H
 
 #include "constants.h"
+#include "debris.h"
 #include "entity.h"
+#include "explosion.h"
 #include "star.h"
 #include "texture.h"
-#include "explosion.h"
-#include "debris.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <list>
 #include <memory>
 #include <string>
-#include <list>
 
 class Renderer {
 public:
   Renderer();
   ~Renderer();
-
   Renderer(const Renderer &source) = delete;
   Renderer &operator=(const Renderer &source) = delete;
   Renderer(Renderer &&source);

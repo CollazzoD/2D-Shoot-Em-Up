@@ -6,8 +6,7 @@
 class Debris : public Entity {
 public:
   Debris(Texture *texture, const float &x, const float &y, const float &dx,
-         const float &dy, const int &health, const SDL_Rect &rect)
-      : Entity(texture, x, y, 0, dx, dy, health), rect(rect) {}
+         const float &dy, const int &health, const SDL_Rect &rect);
   void Update() override;
   SDL_Rect GetRect() const { return rect; }
 
