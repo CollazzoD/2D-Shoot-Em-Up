@@ -41,3 +41,19 @@ This project is based on the 2D Shoot'em Up tutorial by Parallel Realities (whic
 ## Class Structure
 Project's class structure is depicted with the following image
 ![UML Class Image](https://github.com/CollazzoD/2d-Shoot-Em-Up/blob/master/UML%20Class.png)
+
+## Rubric Points Addressed
+This section indicates which rubric points are addressed for the CppND Capstone Project.
+The file is indicated with the extension. If one has to refer to both .h and .cpp, the file extension is replaced with .\*
+The lines of code, if present, are indicated with an interval notation, that indicates from which line to which line one can find the relative rubric point (e.g. example.cpp [1:5] indicates from line 1 to line 5 of example.cpp's file).
+
+Rubric Point  | File
+:-------------:|:-------------:
+The project reads data from a file and process the data,<br> or the program writes data to a file | highscore.cpp [4:24]
+The project accepts user input and processes the input.| controller.cpp [5:67] <br> (using the SDL library as interface for user's input)
+The project uses Object Oriented Programming techniques. | entity.\*, alienBullet.\*, bullet.\*, debris.\*,<br> enemy.\*, explosion.\*, player.\*
+Classes use appropriate access specifiers for class members.| alienBullet.h, bullet.h, controller.h, debris.h, enemy.h,<br> entity.h, explosion.h, game.h, highscore.h, player.h, renderer.h, star.h, texture.h
+Class constructors utilize member initialization lists. | alienBullet.cpp, bullet.cpp, debris.cpp, enemy.cpp, entity.cpp, <br> explosion.cpp, player.cpp, texture.cpp
+Derived class functions override virtual base class functions. | alienBullet.cpp [8:14], bullet.cpp [7:15], debris.cpp[8:13], enemy.cpp [11:21], explosion.cpp [8:15], player.cpp [18:53]
+The project makes use of references in function declarations. | game.cpp [79]
+
