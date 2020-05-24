@@ -13,7 +13,7 @@
 class Player : public Entity {
 public:
   Player(Texture *texture, Texture *bullet_texture,
-         std::list<std::unique_ptr<Bullet>> &bullets);
+         std::list<std::unique_ptr<Entity>> &bullets);
   ~Player() = default;
   Player(const Player &source) = delete;
   Player &operator=(const Player &source) = delete;
@@ -33,7 +33,7 @@ private:
   void FireBullet();
 
   Texture *bullet_texture; // used to create other bullets
-  std::list<std::unique_ptr<Bullet>> &bullets;
+  std::list<std::unique_ptr<Entity>> &bullets;
   bool fire{false};
   int reload;
 };

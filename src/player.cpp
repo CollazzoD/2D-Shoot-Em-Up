@@ -3,7 +3,7 @@
 
 // Renderer is needed in order to load the texture
 Player::Player(Texture *texture, Texture *bullet_texture,
-               std::list<std::unique_ptr<Bullet>> &bullets)
+               std::list<std::unique_ptr<Entity>> &bullets)
     : Entity(texture, PLAYER_INITIAL_X, PLAYER_INITIAL_Y, PLAYER_SPEED),
       bullet_texture(bullet_texture), bullets(bullets), reload(0) {}
 

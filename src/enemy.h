@@ -15,7 +15,7 @@ class Enemy : public Entity {
 public:
   Enemy(Texture *texture, const float &x, const float &y, const int &speed,
         Texture *bullet_texture,
-        std::list<std::unique_ptr<AlienBullet>> &enemy_bullets,
+        std::list<std::unique_ptr<Entity>> &enemy_bullets,
         const Player *player);
   ~Enemy() = default;
   Enemy(const Enemy &source) = delete;
@@ -36,7 +36,7 @@ private:
   const Player *player;
 
   Texture *bullet_texture; // used to create other bullets
-  std::list<std::unique_ptr<AlienBullet>> &enemy_bullets;
+  std::list<std::unique_ptr<Entity>> &enemy_bullets;
   int reload;
 };
 

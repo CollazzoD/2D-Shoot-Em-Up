@@ -12,6 +12,7 @@
 #include "star.h"
 #include "constants.h"
 #include "explosion.h"
+#include "debris.h"
 #include <SDL2/SDL.h>
 #include <memory>
 #include <list>
@@ -41,10 +42,11 @@ private:
   std::unique_ptr<Texture> explosion_texture;
 
   std::unique_ptr<Player> player;
-  std::list<std::unique_ptr<Bullet>> bullets;
-  std::list<std::unique_ptr<Enemy>> enemies;
-  std::list<std::unique_ptr<AlienBullet>> enemies_bullets;
+  std::list<std::unique_ptr<Entity>> bullets;
+  std::list<std::unique_ptr<Entity>> enemies;
+  std::list<std::unique_ptr<Entity>> enemies_bullets;
   std::list<std::unique_ptr<Explosion>> explosions;
+  std::list<std::unique_ptr<Entity>> space_debris;
 
   Stars game_stars;
   
@@ -53,10 +55,9 @@ private:
   int score{0};
   
   void Update();
-  void UpdateBullets();
-  void UpdateEnemies();
-  void UpdateEnemiesBullets();
-  void UpdateExplosions();
+  void UpdateEntities(std::list<std::unique_ptr<Entity>> &list);
+  void UpdateEntities(std::list<std::unique_ptr<Explosion>> &list);
+
   void SpawnEnemy();
   void CheckCollision();
   bool Collision(const Entity* e1, const Entity* e2);

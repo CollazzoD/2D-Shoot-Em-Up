@@ -2,17 +2,10 @@
 #include <iostream>
 
 Entity::Entity(Texture *texture, const float &x, const float &y,
-               const int &speed)
-    : texture(texture), x(x), y(y), speed(speed), dx(0), dy(0), health(1), width(0), height(0) {
-  if (texture != nullptr) {
-    width = texture->GetTextureWidth();
-    height = texture->GetTextureHeight();
-  }
-};
-
-Entity::Entity(Texture *texture, const float &x, const float &y,
-               const int &speed, const float &dx, const float &dy)
-    : texture(texture), x(x), y(y), speed(speed), dx(dx), dy(dy), health(1), width(0), height(0) {
+               const int &speed, const float &dx, const float &dy,
+               const int &health)
+    : texture(texture), x(x), y(y), speed(speed), dx(dx), dy(dy), health(health),
+      width(0), height(0) {
   if (texture != nullptr) {
     width = texture->GetTextureWidth();
     height = texture->GetTextureHeight();

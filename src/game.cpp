@@ -39,6 +39,7 @@ void Game::ResetStage() {
   enemies.erase(begin(enemies), end(enemies));
   enemies_bullets.erase(begin(enemies_bullets), end(enemies_bullets));
   explosions.erase(begin(explosions), end(explosions));
+  space_debris.erase(begin(space_debris), end(space_debris));
   player->Init();
   enemy_spawn_timer = ENEMY_SPAWN_TIMER;
   reset_stage_timer = RESET_STAGE_TIMER;
@@ -60,6 +61,10 @@ void Game::RenderGameEntities(Renderer &renderer) {
   for (auto const &bullet : enemies_bullets)
     if (bullet->GetHealth() == 1)
       renderer.Render(bullet.get());
+
+  for (auto const &debris : space_debris)
+    if (debris->GetHealth() > 0)
+      renderer.Render(debris.get());
 
   renderer.Render(explosions);
   renderer.Render(game_stars);
@@ -128,54 +133,28 @@ void Game::SpawnEnemy() {
   }
 }
 
-void Game::UpdateBullets() {
-  for (auto bullet = begin(bullets); bullet != end(bullets);) {
-    if (!*bullet) {
-      bullet = bullets.erase(bullet);
-    } else if ((*bullet)->GetHealth() == 0) {
-      bullet = bullets.erase(bullet);
+void Game::UpdateEntities(std::list<std::unique_ptr<Entity>> &list) {
+  for (auto element = begin(list); element != end(list);) {
+    if (!*element) {
+      element = list.erase(element);
+    } else if ((*element)->GetHealth() == 0) {
+      element = list.erase(element);
     } else {
-      (*bullet)->Update();
-      bullet++;
+      (*element)->Update();
+      element++;
     }
   }
 }
 
-void Game::UpdateEnemies() {
-  for (auto enemy = begin(enemies); enemy != end(enemies);) {
-    if (!*enemy) {
-      enemy = enemies.erase(enemy);
-    } else if ((*enemy)->GetHealth() == 0) {
-      enemy = enemies.erase(enemy);
+void Game::UpdateEntities(std::list<std::unique_ptr<Explosion>> &list) {
+  for (auto element = begin(list); element != end(list);) {
+    if (!*element) {
+      element = list.erase(element);
+    } else if ((*element)->GetHealth() == 0) {
+      element = list.erase(element);
     } else {
-      (*enemy)->Update();
-      enemy++;
-    }
-  }
-}
-
-void Game::UpdateEnemiesBullets() {
-  for (auto bullet = begin(enemies_bullets); bullet != end(enemies_bullets);) {
-    if (!*bullet) {
-      bullet = enemies_bullets.erase(bullet);
-    } else if ((*bullet)->GetHealth() == 0) {
-      bullet = enemies_bullets.erase(bullet);
-    } else {
-      (*bullet)->Update();
-      bullet++;
-    }
-  }
-}
-
-void Game::UpdateExplosions() {
-  for (auto explosion = begin(explosions); explosion != end(explosions);) {
-    if (!*explosion) {
-      explosion = explosions.erase(explosion);
-    } else if ((*explosion)->GetHealth() == 0) {
-      explosion = explosions.erase(explosion);
-    } else {
-      (*explosion)->Update();
-      explosion++;
+      (*element)->Update();
+      element++;
     }
   }
 }
@@ -185,10 +164,11 @@ void Game::Update() {
   player->Update();
 
   SpawnEnemy();
-  UpdateBullets();
-  UpdateEnemies();
-  UpdateEnemiesBullets();
-  UpdateExplosions();
+  UpdateEntities(bullets);
+  UpdateEntities(enemies);
+  UpdateEntities(enemies_bullets);
+  UpdateEntities(explosions);
+  UpdateEntities(space_debris);
   game_stars.Update();
 
   CheckCollision();

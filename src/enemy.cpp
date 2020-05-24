@@ -3,7 +3,7 @@
 
 Enemy::Enemy(Texture *texture, const float &x, const float &y, const int &speed,
              Texture *bullet_texture,
-             std::list<std::unique_ptr<AlienBullet>> &enemy_bullets,
+             std::list<std::unique_ptr<Entity>> &enemy_bullets,
              const Player *player)
     : Entity(texture, x, y, speed), bullet_texture(bullet_texture),
       enemy_bullets(enemy_bullets), reload(ENEMY_RELOAD), player(player) {
