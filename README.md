@@ -18,7 +18,7 @@ This is the repo for the Capstone project in the [Udacity C++ Nanodegree Program
 * SDL2 >= 2.0
   * All installation instructions can be found [here](https://wiki.libsdl.org/Installation)
   * Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source. 
-  * Make sure to install also SDL2_image (e.g. on Linux run `apt-get install libsdl2-image-dev`
+  * Make sure to install also SDL2_image (e.g. on Linux run `apt-get install libsdl2-image-dev`)
 
 ## Basic Build Instructions
 
@@ -26,3 +26,7 @@ This is the repo for the Capstone project in the [Udacity C++ Nanodegree Program
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./2D-Shoot-Em-Up`.
+
+## Commands
+* Arrows : move Spaceship
+* Spacebar : Fire
