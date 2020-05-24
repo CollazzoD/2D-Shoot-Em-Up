@@ -32,3 +32,12 @@ This project is based on the 2D Shoot'em Up tutorial by Parallel Realities (whic
 ## Commands
 * <kbd>Arrows</kbd> : move Spaceship
 * <kbd>Space</kbd> : Fire
+
+## Folder Structure
+* cmake : contains CMake find utilities
+* gfx : contains all the png images used as texture
+* src : contains all the project code
+
+## Class Structure
+Project's class structure is depicted with the following image
+![UML Class Image](https://github.com/CollazzoD/2d-Shoot-Em-Up/blob/master/UML%20Class.png)
