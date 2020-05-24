@@ -3,6 +3,8 @@
 
 This is the repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
+This project is based on the 2D Shoot'em Up tutorial by Parallel Realities (which can be found [here](https://www.parallelrealities.co.uk/tutorials/#shooter)).
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
