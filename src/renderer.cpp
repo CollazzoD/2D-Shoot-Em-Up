@@ -114,6 +114,24 @@ SDL_Texture *Renderer::LoadTexture(const std::string &filename) const {
   return newTexture;
 }
 
+void Renderer::PrintHighscore(const HighScore &highscore) {
+  int i = 1;
+  int y = 150;
+  DrawText(530, 70, 255, 255, 255, "HIGHSCORES");
+  auto scores = highscore.GetScores();
+  std::sort(begin(scores), end(scores), std::greater<int>());
+  for (const int &score : scores) {
+    if (i < 10)
+      DrawText(425, y, 255, 255, 0, "#0" + std::to_string(i) + " ............. " + std::to_string(score));
+    else
+      DrawText(425, y, 255, 255, 0, "#" + std::to_string(i) + " ............. " + std::to_string(score));
+    y += 50;
+    i++;
+  }
+  y += 10;
+  DrawText(450, y, 255, 255, 255, "PRESS FIRE TO PLAY!");
+}
+
 void Renderer::Render(const Entity *entity) {
   SDL_Rect dest;
   dest.x = entity->GetX();
@@ -168,7 +186,8 @@ void Renderer::DrawHud(const int &score, const int &highscore) {
   if (score > highscore) {
     DrawText(960, 10, 0, 255, 0, "HIGH SCORE: " + std::to_string(score));
   } else {
-    DrawText(960, 10, 255, 255, 255, "HIGH SCORE: " + std::to_string(highscore));
+    DrawText(960, 10, 255, 255, 255,
+             "HIGH SCORE: " + std::to_string(highscore));
   }
 }
 

@@ -7,6 +7,7 @@
 #include "explosion.h"
 #include "star.h"
 #include "texture.h"
+#include "highscore.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <list>
@@ -31,6 +32,7 @@ public:
   void Render(const Stars &stars);
   void RenderBackground();
   void DrawHud(const int &score, const int &highscore);
+  void PrintHighscore(const HighScore &highscore);
   SDL_Texture *LoadTexture(const std::string &filename) const;
 
 private:

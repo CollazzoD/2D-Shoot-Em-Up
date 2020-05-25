@@ -76,6 +76,25 @@ void Game::RenderGameEntities(Renderer &renderer) {
   renderer.Render(game_stars);
 }
 
+void Game::Playing(Controller const &controller, Renderer &renderer, bool &running) {
+  controller.HandleInput(running, player.get());
+
+  Update();
+  RenderGameEntities(renderer);
+  renderer.DrawHud(score, highscore);
+
+  if (player->GetHealth() <= 0) {
+    reset_stage_timer--;
+    if (reset_stage_timer <= 0)
+      ResetStage();
+  }
+}
+
+void Game::ShowHighscore(Controller const &controller, Renderer &renderer, bool &running) {
+  controller.HandleInput(running, playing);
+  renderer.PrintHighscore(highscore_table);
+}
+
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
@@ -90,17 +109,11 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     renderer.PrepareScene();
-    controller.HandleInput(running, player.get());
 
-    Update();
-    RenderGameEntities(renderer);
-    renderer.DrawHud(score, highscore);
-
-    if (player->GetHealth() <= 0) {
-      reset_stage_timer--;
-      if (reset_stage_timer <= 0)
-        ResetStage();
-    }
+    if (playing)
+      Playing(controller, renderer, running);
+    else
+      ShowHighscore(controller, renderer, running);
 
     renderer.PresentScene();
 
@@ -246,7 +259,7 @@ void Game::AddDebris(const Entity *e) {
   float debris_x, debris_y, debris_dx, debris_dy;
   int debris_life;
   SDL_Rect rect;
-  
+
   w = e->GetWidth() / 2;
   h = e->GetHeight() / 2;
   for (y = 0; y <= h; y += h) {
@@ -262,8 +275,9 @@ void Game::AddDebris(const Entity *e) {
       rect.w = w;
       rect.h = h;
 
-      auto debris = std::make_unique<Debris>(
-          e->GetTexture(), debris_x, debris_y, debris_dx, debris_dy, debris_life, rect);
+      auto debris =
+          std::make_unique<Debris>(e->GetTexture(), debris_x, debris_y,
+                                   debris_dx, debris_dy, debris_life, rect);
       space_debris.push_front(std::move(debris));
     }
   }

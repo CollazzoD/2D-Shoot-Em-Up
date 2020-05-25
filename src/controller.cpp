@@ -65,3 +65,19 @@ void Controller::HandleInput(bool &running, Player *player) const {
     }
   }
 }
+
+void Controller::HandleInput(bool &running, bool &playing) const {
+  SDL_Event e;
+  while (SDL_PollEvent(&e)) {
+    switch (e.type) {
+    case SDL_QUIT:
+      running = false;
+      break;
+
+    default:
+      if (e.key.keysym.sym == SDLK_SPACE)
+        playing = true;
+      break;
+    }
+  }
+}

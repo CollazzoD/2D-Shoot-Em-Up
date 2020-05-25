@@ -8,11 +8,11 @@
 #include "debris.h"
 #include "enemy.h"
 #include "explosion.h"
+#include "highscore.h"
 #include "player.h"
 #include "renderer.h"
 #include "star.h"
 #include "texture.h"
-#include "highscore.h"
 #include <SDL2/SDL.h>
 #include <list>
 #include <memory>
@@ -24,7 +24,6 @@ public:
            std::size_t target_frame_duration);
 
 private:
-
   // Random Generation for game features
   std::random_device dev;
   std::mt19937 engine;
@@ -59,9 +58,12 @@ private:
   int reset_stage_timer{RESET_STAGE_TIMER};
   int score{0};
   int highscore{0};
+  bool playing{false};
 
   void Update();
   void UpdateEntities(std::list<std::unique_ptr<Entity>> &list);
+  void Playing(Controller const &controller, Renderer &renderer, bool &running);
+  void ShowHighscore(Controller const &controller, Renderer &renderer, bool &running);
   void SpawnEnemy();
   void CheckCollision();
   bool Collision(const Entity *e1, const Entity *e2);

@@ -14,6 +14,7 @@ public:
   HighScore &operator=(HighScore &&source) = delete;
 
   int GetHighScore() const;
+  std::array<int, 10> GetScores() const;
   void PushScore(const int &score);
 
 private:

@@ -27,6 +27,10 @@ int HighScore::GetHighScore() const {
   return *std::max_element(begin(score_table), end(score_table));
 }
 
+std::array<int, 10> HighScore::GetScores() const {
+    return score_table;
+}
+
 void HighScore::PushScore(const int &score) {
   auto min = std::min_element(begin(score_table), end(score_table));
   if (score > *min)
