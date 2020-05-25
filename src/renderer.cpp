@@ -22,11 +22,15 @@ Renderer::Renderer()
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-  // Create renderer
+  // Try to create renderer with Hardware acceleration
   sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
   if (nullptr == sdl_renderer) {
-    std::cerr << "Renderer could not be created.\n";
-    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+    // Try to create renderer without Hardware acceleration
+    sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_SOFTWARE);
+    if (nullptr == sdl_renderer) {
+      std::cerr << "Renderer could not be created.\n";
+      std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+    }
   }
 
   // Initialize SDL Image library
@@ -122,9 +126,13 @@ void Renderer::PrintHighscore(const HighScore &highscore) {
   std::sort(begin(scores), end(scores), std::greater<int>());
   for (const int &score : scores) {
     if (i < 10)
-      DrawText(425, y, 255, 255, 0, "#0" + std::to_string(i) + " ............. " + std::to_string(score));
+      DrawText(425, y, 255, 255, 0,
+               "#0" + std::to_string(i) + " ............. " +
+                   std::to_string(score));
     else
-      DrawText(425, y, 255, 255, 0, "#" + std::to_string(i) + " ............. " + std::to_string(score));
+      DrawText(425, y, 255, 255, 0,
+               "#" + std::to_string(i) + " ............. " +
+                   std::to_string(score));
     y += 50;
     i++;
   }
