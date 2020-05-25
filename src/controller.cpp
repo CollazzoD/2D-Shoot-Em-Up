@@ -21,7 +21,7 @@ void Controller::doKeyUp(Player *player, const SDL_Keycode &key) const {
     player->StopFire();
 }
 
-void Controller::doKeyDown(Player *player, const SDL_Keycode &key) const {
+void Controller::doKeyDown(Player *player, const SDL_Keycode &key, bool &playing) const {
   const Uint8 *state = SDL_GetKeyboardState(NULL);
   switch (key) {
   case SDLK_UP:
@@ -41,13 +41,16 @@ void Controller::doKeyDown(Player *player, const SDL_Keycode &key) const {
     break;
   }
 
+  if (state[SDL_SCANCODE_ESCAPE])
+    playing = false;
+
   if (state[SDL_SCANCODE_SPACE])
     player->Fire();
   else
     player->StopFire();
 }
 
-void Controller::HandleInput(bool &running, Player *player) const {
+void Controller::HandleInput(bool &running, bool &playing, Player *player) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     switch (e.type) {
@@ -60,7 +63,7 @@ void Controller::HandleInput(bool &running, Player *player) const {
       break;
 
     case SDL_KEYDOWN:
-      doKeyDown(player, e.key.keysym.sym);
+      doKeyDown(player, e.key.keysym.sym, playing);
       break;
     }
   }

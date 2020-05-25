@@ -77,7 +77,7 @@ void Game::RenderGameEntities(Renderer &renderer) {
 }
 
 void Game::Playing(Controller const &controller, Renderer &renderer, bool &running) {
-  controller.HandleInput(running, player.get());
+  controller.HandleInput(running, playing, player.get());
 
   Update();
   RenderGameEntities(renderer);
