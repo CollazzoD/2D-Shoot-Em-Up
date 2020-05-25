@@ -29,10 +29,32 @@ This project is based on the 2D Shoot'em Up tutorial by Parallel Realities (whic
 3. Compile: `cmake .. && make`
 4. Run it: `./2D-Shoot-Em-Up`.
 
-## Commands
-* <kbd>Arrows</kbd> : move Spaceship
-* <kbd>Space</kbd> : Fire
+## Appearance
+### Highscore Screen
+When started, the game will prompt the "Highscore Screen" like the following image:
 
+![Highscore_Screen_Image](https://github.com/CollazzoD/2d-Shoot-Em-Up/blob/master/Highscore_screen.png)
+
+To start playing, just press <kbd>Space</kbd>. To close the application, just close the window.
+
+### Playing
+While playing, use the <kbd>Arrows</kbd> to move the Spaceship and the <kbd>Space</kbd> to Fire.
+Pressing the <kbd>Esc</kbd> button will prompt the "Highscore Screen". To resume playing, just press <kbd>Space</kbd>.
+The Player dies when gets hit by an Enemy's bullet. When this happen, the game will resum after a short period.
+To close the application, just close the window.
+
+![Game_Screen_Image](https://github.com/CollazzoD/2d-Shoot-Em-Up/blob/master/Game_screen.png)
+
+
+## Commands
+* While in Highscore Screen:
+  * <kbd>Space</kbd> : Start/Resume playing
+
+* While playing:
+  * <kbd>Arrows</kbd> : move Spaceship
+  * <kbd>Space</kbd> : Fire
+  * <kbd>Esc</kbd> : Show highscore screen
+  
 ## Folder Structure
 * cmake : contains CMake find utilities
 * gfx : contains all the png images used as texture
